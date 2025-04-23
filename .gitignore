@@ -56,8 +56,7 @@ lerna-debug.log*
 
 # ==================================
 # Dependency Lock Files (Optional)
-# Uncomment if you don't want to track them
 # ==================================
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
