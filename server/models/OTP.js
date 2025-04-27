@@ -41,7 +41,6 @@ const OTPSchema =new mongoose.Schema({
 
 
 module.exports=mongoose.model("OTP",OTPSchema);
-
 /*
       pre a mongoose hook .
       pre("save") → A Mongoose middleware that runs before saving the document.
