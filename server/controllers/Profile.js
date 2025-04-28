@@ -142,3 +142,34 @@ exports.deleteAccount=async (req,res)=>{
             
       }
 }
+
+//fetch user Details;
+
+exports.getUserDetails=async(req,res)=>{
+      try{
+            //get all details of a user
+            const id=req.user.id;
+            const userDetails=await User.findById(id).populate("additionalDetails").exec();//populate a column value which hold id of a other object;
+            if(!userDetails){
+                  return res.status(404).json({
+                        message:"User not found",
+                        success:false
+                  });
+            }
+            //return response
+            return res.status(200).json({
+                  message:"User details fetched successfully",
+                  userDetails:userDetails,
+                  success:true
+            });
+      }catch(error){
+            console.log(error);
+            res.status(500).json({
+                  message:"Error getting user details",
+                  success:false
+            });
+      }
+
+}
+
+
