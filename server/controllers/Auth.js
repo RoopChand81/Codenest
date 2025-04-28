@@ -37,6 +37,7 @@ exports.sendOTP=async(req,res)=>
             await mailSender(email,'OTP Verification Email from CodeNest',template);
 
 
+
             //make enrty in DB with unique otp
             const otpPayload={email,otp};
             const otpBody=await OTP.create(otpPayload);//called OTP pre function and save otp in DB
