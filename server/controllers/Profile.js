@@ -103,3 +103,42 @@ exports.updateDisplayPicture = async (req, res) => {
     });
   }
 };
+
+
+//delete Account 
+//how to delete Account with schedule time;
+exports.deleteAccount=async (req,res)=>{
+      try{
+            //get id
+            const id=req.user.id;
+            //check vaild id or not
+            const userDetails=await User.findById(id);
+            console.log(userDetails);
+            if(!userDetails){
+                  return res.status(404).json({
+                        message:"User not found",
+                        success:false
+                  });
+            }
+            //delete profile
+            await Profile.findByIdAndDelete({_id:userDetails.additionalDetails});//find profile id using user schema;
+            //HM : delete that student from that Courses which it taken;
+            //delete user
+            await User.findByIdAndDelete({_id:id});
+            
+            //return response
+            return res.status(200).json({
+                  message:"Account deleted successfully",
+                  success:true
+            });
+
+      }catch(error){
+            console.log(error);
+            res.status(500).json({
+                  message:"Error deleting account",
+                  success:false,
+                  
+            })
+            
+      }
+}
