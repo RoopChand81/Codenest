@@ -111,3 +111,78 @@ exports.createCourse = async (req, res) => {
     });
   }
 };
+
+//==================show all Courses=================
+exports.getAllCourses=async(req,res)=>{
+      try{
+            const allCourses=await Course.find({}).populate("instructor").exec();
+
+            return res.status(200).json({
+                  message:"All Courses Retrieved Successfully",
+                  success:true,
+                  data:allCourses
+            });
+
+      }catch(error){
+            return res.status(400).json({
+                  message:"Error While Fetching All Courses",
+                  success:false
+            });
+      }
+}
+
+
+//=====================get Course Details================
+exports.getCourseDetails=async(req,res)=>{
+      try{
+            const {courseId}=req.body;
+
+            // ✅ Ensure `courseId` is a string before passing it to Mongoose
+            const validCourseId = typeof courseId === "object" ? courseId.courseId : courseId;
+            
+            if (!mongoose.Types.ObjectId.isValid(validCourseId)) {
+                  return res.status(400).json({ success: false, message: "Invalid Course ID format" });
+            }
+
+            //find course Details
+            const courseDetails=await Course.findById(
+                  {_id:validCourseId}
+            )
+                  .populate(
+                        {
+                              path:"instructor",
+                              populate:{
+                                    path:"additionalDetails",
+                              },
+                        }
+                  )
+                  .populate("category")
+                  //.populate("ratingAndreviews")
+                  .populate({
+                        path:"courseContent",
+                        // populate:{
+                        //       path:"subSection",
+                        // },
+                  })
+                  .exec();
+            if(!courseDetails){
+                  return res.status(404).json({
+                        message:`Could not found the course with ${courseId}`,
+                        success:false
+                  });
+            }
+            //return response
+            return res.status(200).json({
+                  message:"Course Details Retrieved Successfully",
+                  success:true,
+                  data:courseDetails
+            })
+      }catch(error){
+            return res.status(400).json({
+                  //message:"Error While Fetching Course Details",
+                  success:false,
+                  error
+
+            });
+      }
+}
