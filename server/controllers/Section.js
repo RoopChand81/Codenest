@@ -50,3 +50,54 @@ exports.createSection = async (req, res) => {
     });
   }
 };
+
+exports.updateSection = async (req, res) => {
+  try {
+    const { sectionName, sectionID } = req.body;
+    //validation
+    if (!sectionName || !sectionID) {
+      return res.status(400).json({
+        message: "Please fill all fields",
+        success: false,
+      });
+    }
+    const section = await Section.findByIdAndUpdate(
+      { sectionID },
+      { sectionName },
+      { new: true }
+    );
+    //return response
+    res.status(200).json({
+      message: "Section updated successfully",
+      success: true,
+      section,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Unable to Update the Section Try Again ",
+      success: false,
+    });
+  }
+};
+
+exports.deleteSection = async (req, res) => {
+  try {
+    const { sectionID } = req.params;
+    //validation
+    if (!sectionID) {
+      return res.status(400).json({
+        message: "Please fill all fields",
+        success: false,
+      });
+    }
+    const Section = await Section.findByIdAndDelete(sectionID);
+    //HomeWork:Do we delete this section ID form Course Schema;
+    //return response
+    res.status(200).json({
+      message: "Section deleted successfully",
+      success: true,
+    });
+  } catch (error) {}
+};
+
