@@ -85,3 +85,81 @@ exports.capturePayment = async (req, res) => {
     });
   }
 };
+
+//==============authorization=============
+exports.verifySignature=async(req,res)=>{
+      const webhookSecret="12345678";
+
+      const signature=req.headers["x-razorpay-signature"];
+
+      const shasum=crypto.createHmac("sha256",webhookSecret);
+      shasum.update(JSON.stringify(req.body));
+      const digest=shasum.digest("hex");
+      if(signature===digest){
+            console.log('Payment authorised');
+
+            const {courseId,userId}=req.body.payload.payment.entity.notes;
+            try{
+                  //find student and add a course;
+                  const enrolledStudent=await User.findByIdAndUpdate(
+                        userId,
+                        {
+                              $push:{
+                                    courses:courseId,
+                              }
+                        },
+                        {new:true}
+                  )
+                  if(!enrolledStudent){
+                        return res.status(404).json({
+                              success:false,
+                              message:"Student not found"
+                        });
+                  }
+                  console.log(enrolledStudent);
+                  //student push in Course
+                  const enrolledCourse=await Course.findByIdAndUpdate(
+                        courseId,
+                        {
+                              $push:{
+                                    studentsEnrolled:userId,
+                              }
+                        },
+                        {new:true}
+                  );
+                  if(!enrolledCourse){
+                        return res.status(500).json({
+                              success:false,
+                              message:"course not found"
+                        })
+                  }
+                  console.log(enrolledCourse);
+
+                  //when student success full take the Course then send the mail
+                  const emailResponde=await mailSender(
+                        enrolledStudent.email,
+                        "Congratulation form studyNoisn",
+                        "You have successfully enrolled in the course",
+                  )
+                  console.log(emailResponde);
+                  return res.status.status(200).json({
+                        success:true,
+                        message:"Course enrolled successfully",
+                  });
+
+            }catch(error){
+                  console.log(error);
+                  return res.status(500).json({
+                        success:false,
+                        message:"Student not enrolled in the Course"
+                  })
+
+            }
+      }
+      else{
+            return res.status(400).json({
+                  success:false,
+                  message:"Invalid Requrest"
+            });
+      }
+}
