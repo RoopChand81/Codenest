@@ -59,3 +59,76 @@ exports.createRating = async (req, res) => {
     });
   }
 };
+
+//===========get Average Rating=========
+exports.getAverageRating=async(req,res)=>{
+      try{
+            //get Course id
+            const courseId=req.body.courseId;
+            //calculate average rating
+            const result=await RatingAndReview.aggregate([
+                  {
+                        $match:{
+                              course:new mongoose.Types.ObjectId(courseId),
+                        },
+                  },
+                  {
+                        $group:{
+                              _id:null,
+                              averageRating:{ $avg:"$rating"},
+                        }
+                  }
+            ])
+            if(result.length>0){
+                  return res.status(200).json({
+                        message:"Average Rating found",
+                        success:true,
+                        averageRating:result[0].averageRating
+                  })
+            }
+            else{
+                  return res.status(200).json({
+                        message:"No Rating and Review given at a time",
+                        success:true
+                  })
+            }
+
+
+      }catch(error){
+            console.log(error);
+            return res.status(500).json({
+                  message:"Average Rating not found ",
+                  success:false
+            })
+
+      }
+}
+
+//===================get all Rating and review==========
+exports.getAllRatingAndReview=async(req,res)=>{
+      try{
+            const allReviews=await RatingAndReview.find({})
+                        .sort({rating:"desc"})
+                        .populate({
+                              path:"user",
+                              select:"firstName lastName email image",//only  these fields result give other not send 
+                        })
+                        .populate({
+                              path:"course",
+                              select:"courseName",
+                        })
+                        .exec();
+            return res.status(200).json({
+                  message:"All Rating and Review found",
+                  success:true,
+                  data:allReviews,
+            });
+      }catch(error){
+            console.log(error);
+            return res.status(500).json({
+                  message:"All Rating and Review not found ",
+                  success:false
+            })
+
+      }
+}
