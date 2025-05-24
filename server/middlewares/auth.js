@@ -40,3 +40,58 @@ exports.auth = async (req, res, next) => {
     });
   }
 };
+
+
+//================Student Role Verify=================
+exports.isStudent =async(req,res,next)=>{
+      try{
+            if(req.user.accountType !== "Student"){
+                  return res.status(403).json({
+                        message:"You are not a student",
+                        success:false
+                  });
+            }
+            next();
+      }catch(error){
+            return res.status(401).json({
+                  message:"This route protected for  Student Role is not verify",
+                  success:false
+            });
+      }
+}
+
+//==================== Is Instructor=================
+exports.isInstructor =async(req,res,next)=>{
+      try{
+            if(req.user.accountType !== "Instructor"){
+                  return res.status(403).json({
+                        message:"This route protected for  Instructor",
+                        success:false
+                  });
+            }
+            next();
+      }catch(error){
+            return res.status(401).json({
+                  message:"You are not a Instructor Role not verify",
+                  success:false
+            });
+      }
+}
+
+//is Admin Role verify
+exports.isAdmin =async(req,res,next)=>{
+      try{
+            if(req.user.accountType !== "Admin"){
+                  return res.status(403).json({
+                        message:"This route protected for  Admin",
+                        success:false
+                  });
+            }
+            next();
+      }catch(error){
+            return res.status(401).json({
+                  message:"You are not a Admin Role not verify",
+                  success:false
+            });
+      }
+}
