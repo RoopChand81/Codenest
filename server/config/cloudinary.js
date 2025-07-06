@@ -1,6 +1,5 @@
 const cloudinary=require("cloudinary").v2
 
-
 exports.cloudinaryConnect = () => {
 	try {
 		cloudinary.config({
