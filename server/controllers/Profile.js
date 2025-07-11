@@ -172,4 +172,35 @@ exports.getUserDetails=async(req,res)=>{
 
 }
 
+exports.getEnrolledCourses=async(req,res)=>{
+      try{
+            //get all enrolled courses of a user
+            const id=req.user.id;
+            const enrolledCourses=await User.find({id}).populate("courses").exec();
+            if(!enrolledCourses){
+                  return res.status(404).json({
+                        message:"No courses enrolled",
+                        success:false
+                  });
+            }
+            //return response
+            return res.status(200).json({
+                  message:"get Enrolled Courses successfully",
+                  enrolledCourses:enrolledCourses,
+                  success:true
+            });
+      }catch(error){
+            console.log(error);
+            return res.status(500).json({
+                  message:"Error getting enrolled courses",
+                  success:false,
+                  data:error
+            });
+      }
+}
+
+
+
+
+
 
