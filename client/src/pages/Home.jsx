@@ -148,6 +148,8 @@ function Home() {
       </div>
 
 
+     
+     
       {/* Section 2  */}
       <div className="bg-pure-greys-5 text-richblack-700">
         <div className="homepage_bg h-[310px]">
@@ -199,7 +201,7 @@ function Home() {
 
       </div>
 
-      {/* Section 3 */}
+      {/* Section 3
       <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
         {/* Become a instructor section */}
         <InstructorSection />
@@ -209,7 +211,7 @@ function Home() {
           Reviews from other learners
         </h1>
         {/* <ReviewSlider /> */}
-      </div>
+      </div> */}
       
 
       {/* {fotter Data Show All } */}
