@@ -22,7 +22,7 @@ import AddCourse from  "./components/core/Dashboard/AddCourse/index"
 import Index from "./components/core/Dashboard/Settings/Index";
 import MyCourses from "./components/core/Dashboard/MyCourses/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
-import Instructor from "./components/core/Dashboard/instructorDashboard/instructor";
+import Instructor from "./components/core/Dashboard/instructorDashboard/Instructor";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import { useSelector } from "react-redux";
