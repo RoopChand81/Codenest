@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { ControlBar, Player } from 'video-react';
-// import '~video-react/dist/video-react.css'; // import css
+import "video-react/dist/video-react.css";
 import { BigPlayButton, LoadingSpinner, PlaybackRateMenuButton, ForwardControl, ReplayControl, CurrentTimeDisplay, TimeDivider } from 'video-react';
 import {BiSkipPreviousCircle} from 'react-icons/bi';
 import {BiSkipNextCircle} from 'react-icons/bi';
