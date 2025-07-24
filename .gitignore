@@ -3,19 +3,7 @@
 # ==================================
 node_modules/
 dist/
-build/
-.next/
-out/
-.vite/
-coverage/
-temp/
-.tmp/
 
-# ==================================
-# System Files
-# ==================================
-.DS_Store
-Thumbs.db
 
 # ==================================
 # Logs & Debug
@@ -40,23 +28,10 @@ lerna-debug.log*
 # IDE & Editor Settings
 # ==================================
 .vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
 
-# ==================================
-# OS Specific Files
-# ==================================
-*.swp
-*.lock
-*.bak
-*.tmp
 
 # ==================================
 # Dependency Lock Files (Optional)
 # ==================================
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
