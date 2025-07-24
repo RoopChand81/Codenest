@@ -26,8 +26,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://codenest-edtech.netlify.app",
       "https://codenest-cz7r.vercel.app/",
+      "https://codenest-edtech.netlify.app",
     ], //jo requrest frentend se ayega use entertain karana hai
     credentials: true,
   })
