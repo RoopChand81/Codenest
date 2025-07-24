@@ -8,7 +8,6 @@ import "../../App.css"
 
 import { apiConnector } from "../../services/apiconnector"
 import { ratingsEndpoints } from "../../services/apis"
-import DisplayRatingStars from "./DisplayRatingStars"
 import RatingStars from './RatingStars'
 
 function ReviewSlider() {
