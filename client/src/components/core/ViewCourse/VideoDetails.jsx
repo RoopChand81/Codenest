@@ -4,9 +4,6 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { ControlBar, Player } from 'video-react';
-import "video-react/dist/video-react.css";
-import { BigPlayButton, LoadingSpinner, PlaybackRateMenuButton, ForwardControl, ReplayControl, CurrentTimeDisplay, TimeDivider } from 'video-react';
 import {BiSkipPreviousCircle} from 'react-icons/bi';
 import {BiSkipNextCircle} from 'react-icons/bi';
 import {MdOutlineReplayCircleFilled} from 'react-icons/md';
@@ -21,7 +18,6 @@ const VideoDetails = () => {
   const dispatch = useDispatch();
   const {token} = useSelector(state => state.auth);
   const {user}= useSelector(state => state.profile);
-  // console.log("user",user._id);
   const {courseSectionData, courseEntireData, completedLectures, totalNoOfLectures} = useSelector(state => state.viewCourse);
   const navigate = useNavigate();
   const playerRef = React.useRef(null);
@@ -30,12 +26,14 @@ const VideoDetails = () => {
   const [videoEnd, setVideoEnd] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  console.log("completed Data: ",completedLectures);
+
   useEffect (() => {
     if (courseSectionData.length === 0) {
       return;
     }
     if(!courseId || !sectionId ||!SubSectionId){
-      navigate("/dashboard/enrolled-course");
+      navigate("/dashboard/enrolled-courses");
     }
     else{
 
@@ -43,7 +41,7 @@ const VideoDetails = () => {
       const filteredSection = courseSectionData?.filter((section) => section._id === sectionId);
       const filteredSubsection = filteredSection[0]?.SubSection?.filter((subsection) => subsection._id === SubSectionId);
       setVideoData(filteredSubsection?.[0]);
-      // console.log(filteredSubsection[0]);
+      //console.log(filteredSubsection[0]);
       setVideoEnd(false);
     }
   }, [courseSectionData, sectionId, SubSectionId]);
@@ -129,6 +127,18 @@ const VideoDetails = () => {
   }
 
   //set video end to false when .play() is called
+  const handleVideoEnd = () => {
+    setVideoEnd(true);
+    console.log("Video has ended.");
+    // In a full application, you would trigger markLectureAsComplete here
+  };
+  const handleReplay = () => {
+    if (playerRef.current) {
+      playerRef.current.currentTime = 0; // Set video to beginning
+      playerRef.current.play(); // Play the video
+      setVideoEnd(false); // Reset video end state
+    }
+  };
  
    
   return (
@@ -136,27 +146,18 @@ const VideoDetails = () => {
       {
         !videoData ? <h1>Loading...</h1> :
         (
-          <div>
-            <Player className="w-full relative"
-              ref={playerRef}
-              src={videoData.videoUrl}
-              aspectRatio="16:9"
-              fluid={true}
-              autoPlay={false}
-              onEnded={() => setVideoEnd(true)}
-            >
-              
-              <BigPlayButton position="center" />
-
-              <LoadingSpinner />
-              <ControlBar>
-              <PlaybackRateMenuButton rates={[5, 2, 1, 0.5, 0.1]} order={7.1} />
-              <ReplayControl seconds={5} order={7.1} />
-              <ForwardControl seconds={5} order={7.2} />
-              <TimeDivider order={4.2} />
-              <CurrentTimeDisplay order={4.1} />
-              <TimeDivider order={4.2} />
-              </ControlBar>
+          <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-md bg-black">
+              <video
+                ref={playerRef} // Assign ref to the video element
+                controls // Enables default browser video controls
+                className="absolute top-0 left-0 w-full h-full object-cover"
+                src={videoData.videoUrl}
+                onEnded={handleVideoEnd}
+              // No 'config' attribute like ReactPlayer, controlsList is a video attribute
+              // controlsList="nodownload" // This attribute can be added directly if needed
+              >
+                Your browser does not support the video tag.
+              </video>
               {
                 videoEnd && (
                   <div className='flex justify-center items-center'>
@@ -185,13 +186,21 @@ const VideoDetails = () => {
                       )
                     }
                     {/* ReWatch the lecture */}
-                    {
-                      <MdOutlineReplayCircleFilled onClick={() =>{ playerRef.current.seek(0);playerRef.current.play();setVideoEnd(false)}} className="text-2xl md:text-5xl bg-richblack-600 rounded-full cursor-pointer hover:scale-90 absolute top-1/2 z-20"/>
-                    }
+                    <div className='flex justify-center items-center'>
+                      <button
+                        onClick={handleReplay}
+                        className='bg-blue-600 text-white font-medium px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-200 transform hover:scale-105 flex items-center justify-center gap-2'
+                      >
+                        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.121a3 3 0 00.95 2.296l2.164 2.164a1 1 0 010 1.414l-2.164 2.164A3 3 0 005 14.879V17a1 1 0 11-2 0v-2.121a3 3 0 00-.95-2.296L.886 10.39a1 1 0 010-1.414l2.164-2.164A3 3 0 004 5.121V3a1 1 0 011-1zm10 0a1 1 0 011 1v2.121a3 3 0 00.95 2.296l2.164 2.164a1 1 0 010 1.414l-2.164 2.164A3 3 0 0015 14.879V17a1 1 0 11-2 0v-2.121a3 3 0 00-.95-2.296L10.886 10.39a1 1 0 010-1.414l2.164-2.164A3 3 0 0014 5.121V3a1 1 0 011-1z" clipRule="evenodd"></path>
+                        </svg>
+                        Replay
+                      </button>
+                    </div>
                   </div>
                 )
               }
-            </Player>
+            
           </div>
         )
       }
