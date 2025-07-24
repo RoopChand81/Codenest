@@ -1,6 +1,6 @@
 //This file define all the Url using actual backend routes (means using this url we can send request using postman);
 
-const BASE_URL = "http://localhost:4000/api/v1"  //define base url according to backend mount route
+const BASE_URL = "https://codenest-omega.vercel.app/api/v1"  //define base url according to backend mount route
 
 
 // AUTH ENDPOINTS
