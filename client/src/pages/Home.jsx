@@ -10,9 +10,13 @@ import LearningLanguageSection from "../components/core/HomePage/LearningLanguag
 import InstructorSection from "../components/core/HomePage/InstructorSection";
 import ExploreMore from "../components/core/HomePage/ExploreMore";
 import Footer from "../components/common/Footer";
+import ReviewSlider from "../components/common/ReviewSlider";
+import { useSelector } from "react-redux";
+import auth from "../slices/authSlice"
 
 
 function Home() {
+  const {token}=useSelector((state)=>state.auth);
   return (
     <div className="HomePage">
       {/* {section 1} */}
@@ -21,7 +25,7 @@ function Home() {
                    justify-between gap-8 text-white"
       >
         {/* Become a Instructor Button */}
-        <Link to={"/signup"}>
+        <Link to={token?"/dashboard/my-profile":"/signup"}>
           <div className="group mx-auto mt-16 w-fit rounded-full bg-richblack-800 p-1 font-bold text-richblack-200 drop-shadow-[0_1.5px_rgba(255,255,255,0.25)] transition-all duration-200 hover:scale-95 hover:drop-shadow-none">
             <div className="flex flex-row items-center gap-2 rounded-full px-10 py-[5px] transition-all duration-200 group-hover:bg-richblack-900">
               <p>Become an Instructor</p>
@@ -48,12 +52,12 @@ function Home() {
 
         {/*  Buttons reuseable component which render the button  active==true yellow background */}
         <div className="mt-8 flex flex-row gap-7">
-          <CTAButton active={true} linkto={"/signup"}>
+          <CTAButton active={true} linkto={token?"/dashboard/my-profile":"/signup"}>
             Learn More
           </CTAButton>
 
           {/* CTA Button active== false means richblack backgraound */}
-          <CTAButton active={false} linkto={"/login"}>
+          <CTAButton active={false} linkto={token?"/dashboard/my-profile":"/login"}>
             Book a Demo
           </CTAButton>
         </div>
@@ -90,12 +94,12 @@ function Home() {
             // send the Button all Details
             ctabtn1={{
               btnText: "Try it Yourself",
-              link: "/signup",
+              link: token?"/dashboard/my-profile":"/login",
               active: true,
             }}
             ctabtn2={{
               btnText: "Learn More",
-              link: "/signup",
+              link: token?"/dashboard/my-profile":"/signup",
               active: false,
             }}
 
@@ -125,12 +129,12 @@ function Home() {
             // send the Button all Details in Section 2
             ctabtn1={{
               btnText: "Continue Lesson",
-              link: "/signup",
+              link:token?"/dashboard/my-profile":"/login",
               active: true,
             }}
             ctabtn2={{
               btnText: "Learn More",
-              link: "/signup",
+              link:token?"/dashboard/my-profile":"/signup",
               active: false,
             }}
             // automatic  coding writing within Section 2 all  Details
@@ -148,8 +152,6 @@ function Home() {
       </div>
 
 
-     
-     
       {/* Section 2  */}
       <div className="bg-pure-greys-5 text-richblack-700">
         <div className="homepage_bg h-[310px]">
@@ -157,14 +159,14 @@ function Home() {
           <div className="mx-auto flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8">
             <div className="lg:h-[150px]"></div>
             <div className="flex flex-row gap-7 text-white lg:mt-8">
-              <CTAButton active={true} linkto={"/signup"}>
+              <CTAButton active={true} linkto={token?"/dashboard/my-profile":"/signup"}>
                 <div className="flex items-center gap-2">
                   Explore Full Catalog
                   <FaArrowRight />
                 </div>
               </CTAButton>
 
-              <CTAButton active={false} linkto={"/login"}>
+              <CTAButton active={false} linkto={token?"/dashboard/my-profile":"/signup"}>
                 Learn More
               </CTAButton>
             </div>
@@ -186,7 +188,7 @@ function Home() {
                 skills.
               </div>
 
-              <CTAButton active={true} linkto={"/signup"}>
+              <CTAButton active={true} linkto={token?"/dashboard/my-profile":"/signup"}>
                 <div className="">Learn More</div>
               </CTAButton>
             </div>
@@ -210,7 +212,7 @@ function Home() {
         <h1 className="text-center text-4xl font-semibold mt-8">
           Reviews from other learners
         </h1>
-        {/* <ReviewSlider /> */}
+        <ReviewSlider />
       </div>
       
 
