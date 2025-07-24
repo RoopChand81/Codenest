@@ -7,6 +7,10 @@ const courseProgressSchema = new mongoose.Schema({
             ref:"Course",
 
       },
+      userID:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"User",
+      },
       completedVideos:[
             {
                   type:mongoose.Schema.Types.ObjectId,
@@ -14,4 +18,4 @@ const courseProgressSchema = new mongoose.Schema({
             }
       ]
 });
-module.exports = mongoose.model("courseProgress",courseProgressSchema);
+module.exports = mongoose.model("CourseProgress",courseProgressSchema);

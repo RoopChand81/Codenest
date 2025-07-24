@@ -1,7 +1,7 @@
-exports.courseEnrollmentEmail = (courseName, name) => {
-  const logo =
-    "https://res.cloudinary.com/dgyljotfp/image/upload/v1744370877/IMAGE/folof84kwix6fnn2bn1x.png";
-  return `<!DOCTYPE html>
+const courseEnrollmentEmail = (courseName, name) => {
+    const logo =
+      "https://res.cloudinary.com/dgyljotfp/image/upload/v1744370877/IMAGE/folof84kwix6fnn2bn1x.png";
+    return `<!DOCTYPE html>
     <html>
 
     <head>
@@ -110,7 +110,7 @@ exports.courseEnrollmentEmail = (courseName, name) => {
             <img class="logo" src="${logo}" alt="CodeNest Logo">
             <div class="header">🎉 Course Registration Successful! 🎉</div>
             <div class="body-text">
-                <p>Dear <span class="highlight">[User's Name]</span>,</p>
+                <p>Dear <span class="highlight">${name}</span>,</p>
                 <p>You have successfully registered for the course <span class="highlight">"${courseName}"</span>. We
                         are excited to have you as a participant!</p>
                 <p>We are thrilled to have you on board! Click below to access your dashboard and start exploring.</p>
@@ -124,4 +124,6 @@ exports.courseEnrollmentEmail = (courseName, name) => {
     </body>
 
 </html>`;
-};
+  };
+
+module.exports = courseEnrollmentEmail;

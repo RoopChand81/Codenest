@@ -1,6 +1,6 @@
 const resetPasswordTemplate = (name, resetLink) => {
-  const logo =
-    "https://res.cloudinary.com/dgyljotfp/image/upload/v1744370877/IMAGE/folof84kwix6fnn2bn1x.png";
+ const logo =
+   "https://res.cloudinary.com/dgyljotfp/image/upload/v1744370877/IMAGE/folof84kwix6fnn2bn1x.png";
 
   return `<!DOCTYPE html>
   <html>

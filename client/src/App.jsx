@@ -11,6 +11,9 @@ import Navbar from "./components/common/Navbar";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
+import Catalog from "./pages/Catalog";
+import CourseDetails from "./pages/CourseDetails";
+import ViewCourse from "./pages/ViewCourse";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import EnrolledCourse from "./components/core/Dashboard/EnrolledCourses";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
@@ -18,7 +21,16 @@ import Cart from "./components/core/Dashboard/Cart/index"
 import AddCourse from  "./components/core/Dashboard/AddCourse/index"
 import Index from "./components/core/Dashboard/Settings/Index";
 import MyCourses from "./components/core/Dashboard/MyCourses/MyCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
+import Instructor from "./components/core/Dashboard/instructorDashboard/instructor";
+import VideoDetails from "./components/core/ViewCourse/VideoDetails";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import { useSelector } from "react-redux";
+
+
+
 function App() {
+  const {user}=useSelector((state)=>state.profile);
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter ">
       {/* Navbar is the menu bar Common component */}
@@ -32,6 +44,8 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmail/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contact" element={<Contact/>}/>
+        <Route path="/catalog/:catalogName" element={<Catalog/>}/>
+        <Route path="/courses/:courseId" element={<CourseDetails/>}/>
 
         <Route element={
             <PrivateRoute><Dashboard/></PrivateRoute>
@@ -42,9 +56,24 @@ function App() {
              <Route path="/dashboard/settings" element={<Index/>} />
              <Route path="/dashboard/cart" element={<Cart/>} />
             <Route path="/dashboard/add-course" element={<AddCourse/>}/> 
-            <Route path="/dashboard/my-courses" element={<MyCourses/>}/>        
+            <Route path="/dashboard/my-courses" element={<MyCourses/>}/>  
+            <Route path="/dashboard/edit-course/:courseId" element={<EditCourse/>}/>
+            <Route path="/dashboard/instructor" element={<Instructor/>}/>      
             
 
+        </Route>
+
+        <Route element={
+          <PrivateRoute><ViewCourse/></PrivateRoute>
+          }
+        >
+          {
+            user?.accountType===ACCOUNT_TYPE.STUDENT && (
+              <>
+                <Route path="/dashboard/enrolled-courses/view-course/:courseId/section/:sectionId/Sub-Section/:SubSectionId" element={<VideoDetails/>}/> 
+              </>
+            )
+          }
         </Route>
        
         <Route path="*" element={<Error/>}/>

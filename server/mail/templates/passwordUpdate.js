@@ -1,7 +1,7 @@
 //this template work when we are change Password using old Password it send Notifation only just;
 
 exports.passwordUpdated = (email, name) => {
-  return `<!DOCTYPE html>
+	return `<!DOCTYPE html>
     <html>
 
         <head>

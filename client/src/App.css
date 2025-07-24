@@ -6,7 +6,13 @@ body {
   scroll-behavior: smooth;
 }
 
-
+.section_heading {
+    --tw-text-opacity: 1;
+    color: rgb(241 242 255 / var(--tw-text-opacity));
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2rem;
+}
 .homepage_bg{
       background-image: url("../src/assets/Images/bghome.svg");
 }

@@ -11,6 +11,8 @@ const cookie=require('jsonwebtoken');
 const {passwordUpdated}=require("../mail/templates/passwordUpdate");
 require('dotenv').config();
 
+
+
 //==============send -OTP for Email Verification And create Account===========
 exports.sendOTP=async(req,res)=>
 {
@@ -37,6 +39,7 @@ exports.sendOTP=async(req,res)=>
             await mailSender(email,'OTP Verification Email from CodeNest',template);
 
 
+           
 
             //make enrty in DB with unique otp
             const otpPayload={email,otp};
