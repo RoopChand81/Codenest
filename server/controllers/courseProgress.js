@@ -7,7 +7,7 @@ exports.updateCourseProgress=async(req,res)=>{
             //check Sub section is exist or not 
             const subSection=await SubSection.findById(SubSectionId);
             if(!subSection){
-                  return res.status(404).json({message:"Sub Section not found"})
+                  return res.status(404).json({message:"Lecture not exit"})
             }
             //check this entry exist or not in courseProgress
             const courseProgress=await CourseProgress.findOne({

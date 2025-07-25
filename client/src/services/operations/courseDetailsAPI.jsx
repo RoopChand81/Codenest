@@ -337,7 +337,7 @@ export const getFullDetailsOfCourse = async (courseId, token, dispatch) => {
       }
     );
 
-    console.log("COURSE_FULL_DETAILS_API RESPONSE:", response);
+    console.log("viwe Course in Operation:", response);
 
     if (!response.data.success) {
       throw new Error(response.data.message);

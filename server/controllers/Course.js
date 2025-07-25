@@ -296,11 +296,13 @@ exports.getFullCourseDetails = async (req, res) => {
       })
       .exec();
 
-    let courseProgressCount = await CourseProgress.findOne({
-      courseID: courseId,
-      userId: userId,
-    });
-
+    const courseProgressCount = await CourseProgress.findOne({
+      userID: new mongoose.Types.ObjectId(userId),
+      courseID: new mongoose.Types.ObjectId(courseId),
+    })
+      .populate("completedVideos")
+      .exec();
+      
     console.log("courseProgressCount : ", courseProgressCount);
 
     if (!courseDetails) {
