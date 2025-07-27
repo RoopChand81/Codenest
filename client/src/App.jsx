@@ -26,10 +26,34 @@ import Instructor from "./components/core/Dashboard/instructorDashboard/Instruct
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { setToken } from "./slices/authSlice";
+import { setUser } from "./slices/profileSlice";
 
 
 
 function App() {
+   const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    const expiry = localStorage.getItem("tokenExpiry");
+
+    if (!token || !expiry || Date.now() > Number(expiry)) {
+      // Clear localStorage and Redux state
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("tokenExpiry");
+      dispatch(setToken(null));
+      dispatch(setUser(null));
+    }
+  }, [location.pathname]);
+
   const {user}=useSelector((state)=>state.profile);
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter ">
@@ -75,8 +99,8 @@ function App() {
             )
           }
         </Route>
-       
         <Route path="*" element={<Error/>}/>
+
       </Routes>
     </div>
   );

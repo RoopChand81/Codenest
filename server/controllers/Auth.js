@@ -207,7 +207,7 @@ exports.login=async (req,res)=>{
             }
             //genrate token using jwt
             const token = jwt.sign(payload,process.env.JWT_SECRET,{
-                  expiresIn:"24h"
+                  expiresIn:"7d"
             });
 
             user=user.toObject();

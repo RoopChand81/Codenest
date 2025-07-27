@@ -123,8 +123,10 @@ export function login(email, password, navigate) {
       dispatch(setUser({ ...response.data.user, image: userImage }))
       
       //set token and user in localStroge of webBrowser;
+     const expiryTime = Date.now() + 7 * 24 * 60 * 60 * 1000;
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
+      localStorage.setItem("tokenExpiry", expiryTime)
       navigate("/dashboard/my-profile")
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
