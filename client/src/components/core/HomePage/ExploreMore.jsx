@@ -14,15 +14,15 @@ const tabName = [
 ];
 const ExploreMore = () => {
             const [currentTab, setCurrentTab] = useState(tabName[0]);//Tab Value which Selected at the time
-            const [courses, setCourses] = useState(HomePageExplore[0].courses);//all Course(Array ) which store all Card Data
+            const [courses, setCourses] = useState(HomePageExplore[0].courses);//all Course(Array ) within that tag
             const [currentCard, setCurrentCard] = useState(
             HomePageExplore[0].courses[0].heading
-            );//Selected Card Data Store
+            );//Selected Card Data Store first card of that course
 
-      //A/c Tab Value  Perform the Action
+      //A/c Tab Value store courses and current course;
      const setMyCards = (value) => {
             setCurrentTab(value);
-            const result = HomePageExplore.filter((course) => course.tag === value);
+            const result = HomePageExplore.filter((course) => course.tag === value);//return a array
             setCourses(result[0].courses);
             setCurrentCard(result[0].courses[0].heading);
       };
@@ -79,7 +79,7 @@ const ExploreMore = () => {
                               //course Card Component 
                               <CourseCard
                                     key={index}
-                                    cardData={ele}//One By One all Card Deatails
+                                    cardData={ele}//One By One all couse in that courses
                                     currentCard={currentCard}//selected Card Data 
                                     setCurrentCard={setCurrentCard}//function that set the Card
                               />

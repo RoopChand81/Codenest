@@ -10,6 +10,7 @@ const mailSender =async(email,title,body)=>{
                         pass:process.env.MAIL_PASS,// Email password (not your actual Gmail password)
                   }
             });
+            
          
             //this is send the actual email on given mail Address
             let info=await transporter.sendMail({

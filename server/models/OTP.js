@@ -24,7 +24,7 @@ const OTPSchema =new mongoose.Schema({
 //             //This function call the mailSender function 
 //             const mailResponse=await mailSender(
 //                   email,//user mailAddress
-//                   "Verification Email from StudyNotion",
+//                   "Verification Email from Codenest",
 //                   otp
 //             );
 //             console.log("Email sent Successfully :",mailResponse);

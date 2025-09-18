@@ -16,6 +16,7 @@ import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
 import MyProfile from "./components/core/Dashboard/MyProfile";
 import EnrolledCourse from "./components/core/Dashboard/EnrolledCourses";
+import AdminPannel from "./components/core/Dashboard/AdminPannel";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Cart from "./components/core/Dashboard/Cart/index"
 import AddCourse from  "./components/core/Dashboard/AddCourse/index"
@@ -40,10 +41,11 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  //check user login sestion expire or not when change url
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     const expiry = localStorage.getItem("tokenExpiry");
-
+    //today time is more then sestion time 
     if (!token || !expiry || Date.now() > Number(expiry)) {
       // Clear localStorage and Redux state
       localStorage.removeItem("token");
@@ -57,8 +59,9 @@ function App() {
   const {user}=useSelector((state)=>state.profile);
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter ">
-      {/* Navbar is the menu bar Common component */}
+      {/* Navbar is the menu bar Common component for all pages */}
       <Navbar/>
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login/>}/>
@@ -71,20 +74,20 @@ function App() {
         <Route path="/catalog/:catalogName" element={<Catalog/>}/>
         <Route path="/courses/:courseId" element={<CourseDetails/>}/>
 
+        {/* private route Access  check conditions */}
         <Route element={
             <PrivateRoute><Dashboard/></PrivateRoute>
           }
         >
-             <Route path="/dashboard/enrolled-courses" element={<EnrolledCourse/>} />
-             <Route path="/dashboard/my-profile" element={<MyProfile/>} />
-             <Route path="/dashboard/settings" element={<Index/>} />
-             <Route path="/dashboard/cart" element={<Cart/>} />
+            <Route path="/dashboard/enrolled-courses" element={<EnrolledCourse/>} />
+            <Route path="/dashboard/my-profile" element={<MyProfile/>} />
+            <Route path="/dashboard/settings" element={<Index/>} />
+            <Route path="/dashboard/cart" element={<Cart/>} />
             <Route path="/dashboard/add-course" element={<AddCourse/>}/> 
             <Route path="/dashboard/my-courses" element={<MyCourses/>}/>  
             <Route path="/dashboard/edit-course/:courseId" element={<EditCourse/>}/>
-            <Route path="/dashboard/instructor" element={<Instructor/>}/>      
-            
-
+            <Route path="/dashboard/instructor" element={<Instructor/>}/>   
+            <Route path="/dashboard/create-category" element={<AdminPannel/>}/>     
         </Route>
 
         <Route element={

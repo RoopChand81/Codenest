@@ -37,7 +37,7 @@ exports.resetPassowrdToken=async(req,res)=>{
 
             
             const resetLink =`http://localhost:3000/update-password/${token}`;
-            const emailBody = resetPasswordTemplate("John", resetLink);
+            const emailBody = resetPasswordTemplate("John", resetLink);//html Reset password template
             await mailSender(
               email,
               "Reset Your Password",

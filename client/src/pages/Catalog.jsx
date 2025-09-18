@@ -55,9 +55,9 @@ const Catalog = () => {
           </div>
         )
       }
-      if (!loading && !catalogPageData.success) {
-        return <Error />
-      }
+      // if (!loading && !catalogPageData.success) {
+      //   return <Error />
+      // }
     
       return (
         <div>
@@ -105,37 +105,59 @@ const Catalog = () => {
               </p>
             </div>
             <div>
-              <CourseSlider
-                Courses={catalogPageData?.data?.selectedCategory?.courses}
-              />
+              {catalogPageData?.success && catalogPageData?.data?.selectedCategory?.courses?.length > 0 ? (
+                <CourseSlider
+                  Courses={catalogPageData.data.selectedCategory.courses}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center mt-16 space-y-6">
+                  <h1 className="text-3xl md:text-4xl font-extrabold text-amber-400 text-center">
+                    🚫 No course added in this category
+                  </h1>
+
+                  <a
+                    href="/"
+                    className="px-6 py-3 bg-amber-400 text-richblack-900 font-semibold rounded-lg shadow-md hover:bg-amber-300 transition-all duration-200"
+                  >
+                    Go Home
+                  </a>
+                </div>
+              )}
             </div>
           </div>
+
           {/* Section 2 */}
-          <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-            <div className="section_heading">
-              Top courses in {catalogPageData?.data?.differentCategory?.name}
+          {
+            catalogPageData?.success &&<div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+              <div className="section_heading">
+                Top courses in {catalogPageData?.data?.differentCategory?.name}
+              </div>
+              <div className="py-8">
+                <CourseSlider
+                  Courses={catalogPageData?.data?.differentCategory?.courses}
+                />
+              </div>
             </div>
-            <div className="py-8">
-              <CourseSlider
-                Courses={catalogPageData?.data?.differentCategory?.courses}
-              />
-            </div>
-          </div>
+          }
     
-          {/* Section 3 */}
-          <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
+          {/* Section 3  only 6 card show in this section*/}
+          {
+            catalogPageData?.success &&<div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
             <div className="section_heading">Frequently Bought</div>
             <div className="py-8">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+                {/* only 6 course Card show not swiper use */}
                 {catalogPageData?.data?.topSellingCourses
                   ?.slice(0, 6)
                   .map((course, i) => (
                     <Course_Card course={course} key={i} Height={"h-[400px]"} />
                   ))}
+
               </div>
             </div>
-          </div>
-    
+            </div>
+          }
           <Footer />
         </div>
       )

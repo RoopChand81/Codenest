@@ -8,13 +8,16 @@ const { default: mongoose } = require("mongoose");
 const crypto = require("crypto");
 const CourseProgress = require("../models/CourseProgress");
 
+//checking the course details and create the order of total amount; 
 exports.capturePayment = async (req, res) => {
   //get courseId and UserID
   const { courses } = req.body;
   const userId = req.user.id;
+
   //validation
   //valid courseID
   try {
+    //check course preset or not
     if (courses.length === 0) {
       return res.json({
         success: false,
@@ -23,7 +26,7 @@ exports.capturePayment = async (req, res) => {
     }
 
     let totalAmount = 0;
-
+    //one by one fecth all course details and check user inrolled or not and add total amount;
     for (const course_id of courses) {
       let course;
       // console.log("courseid=",course_id);
@@ -52,25 +55,34 @@ exports.capturePayment = async (req, res) => {
           message: error.message,
         });
       }
-      // totalAmount += course.price;
     }
+
     const options = {
-      amount: totalAmount * 100,
-      currency: "INR",
-      receipt: Math.random(Date.now()).toString(),
+      amount: totalAmount * 100,//convert in paisa;
+      currency: "INR",//curency
+      receipt: Math.random(Date.now()).toString(),//it unique id for map to order
     };
 
     try {
-      //initiate the payment using razorpay
+      //creating the order of paymetn;
       const paymentResponse = await instance.orders.create(options);
+      // if Razorpay fails silently or returns undefined
+      if (!paymentResponse || !paymentResponse.id) {
+        return res.status(500).json({
+          success: false,
+          message: "Order could not be created. Please try again later.",
+        });
+      }
+
       console.log("payment", paymentResponse);
-      //return response
+      //order created return order id and amount and currency
       return res.status(200).json({
         success: true,
         orderId: paymentResponse.id,
         currency: paymentResponse.currency,
         amount: paymentResponse.amount,
       });
+
     } catch (error) {
       console.error(error);
       return res.status(500).json({
@@ -78,6 +90,7 @@ exports.capturePayment = async (req, res) => {
         message: error.message,
       });
     }
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -155,7 +168,6 @@ const enrollStudents = async (courses, userId) => {
       );
 
       //add course progress for userid and courseid
-
       const courseProgress = await CourseProgress.create({
         userID: userId,
         courseID: courseId,
@@ -185,7 +197,7 @@ const enrollStudents = async (courses, userId) => {
   }
 
   return true;
-};
+}; 
 
 exports.sendPaymentSuccessEmail = async (req, res) => {
   const { orderId, paymentId, amount } = req.body;

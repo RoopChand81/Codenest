@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { sendOtp, signUp } from "../services/operations/authAPI";
 import { useNavigate } from "react-router-dom";
 
+
 function VerifyEmail() {
   const [otp, setOtp] = useState("");
   const { signupData, loading } = useSelector((state) => state.auth);

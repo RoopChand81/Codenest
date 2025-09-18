@@ -73,7 +73,7 @@ const CodeBlocks = ({
               whiteSpace: "pre-line",
               display: "block",
             }}
-            //Deletion Not Perform (means going back one by one line)
+            //Deletion and then re-write
             omitDeletionAnimation={true}
           />
         </div>

@@ -1,10 +1,10 @@
 import { toast } from "react-hot-toast"
 
 import { setLoading, setToken } from "../../slices/authSlice"
-//import { resetCart } from "../../slices/cartSlice"
+import { setCart } from "../../slices/cartSlice"
 import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
-import { endpoints } from "../apis";
+import { cartEndpoints, endpoints } from "../apis";
 
 //fetch all api or route of backend;
 const {
@@ -14,6 +14,9 @@ const {
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
 } = endpoints
+const{
+  GET_USER_CART_API
+}=cartEndpoints;
 
 
 
@@ -33,7 +36,7 @@ export function sendOtp(email,navigate,name) {
       })
       console.log("SENDOTP API RESPONSE............", response)
 
-      console.log(response.data.success)
+    
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -127,6 +130,27 @@ export function login(email, password, navigate) {
       localStorage.setItem("token", JSON.stringify(response.data.token))
       localStorage.setItem("user", JSON.stringify(response.data.user))
       localStorage.setItem("tokenExpiry", expiryTime)
+
+      // 🔥 Fetch user cart after login
+      try {
+        const cartResponse = await apiConnector("GET",GET_USER_CART_API,
+          null,
+          {
+            Authorization: `Bearer ${response.data.token}`,
+          }
+        )
+        console.log("USER CART RESPONSE............", cartResponse)
+
+        if (cartResponse.data.success) {
+          const courses=cartResponse.data.courses;
+          for (const course of courses) {
+            dispatch(setCart(course)) // save to Redux slice
+          }
+        }
+      } catch (cartErr) {
+        console.log("FETCH CART ERROR............", cartErr)
+        //call to logout page and navigate to login page 
+      }
       navigate("/dashboard/my-profile")
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
@@ -144,6 +168,9 @@ export function logout(navigate) {
    // dispatch(resetCart())
     localStorage.removeItem("token")
     localStorage.removeItem("user")
+    localStorage.removeItem("cart")
+    localStorage.removeItem("totalItems")
+    localStorage.removeItem("total");
     toast.success("Logged Out")
     navigate("/")
   }

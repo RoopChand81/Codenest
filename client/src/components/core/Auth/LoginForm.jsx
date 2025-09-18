@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { login } from "../../../services/operations/authAPI"
 
 function LoginForm() {
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [formData, setFormData] = useState({
@@ -81,7 +82,7 @@ function LoginForm() {
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
             )}
         </span>
-
+        {/* Forget Password check deeply working */}
         <Link to="/forgot-password">
           <p className="mt-2 ml-auto max-w-max text-xs text-blue-100">
             Forgot Password

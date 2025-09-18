@@ -24,8 +24,6 @@ const SidebarLink = ({link,iconName}) => {
                   </div>
                   
             </div>
-            
-
       </NavLink>
     </div>
   )

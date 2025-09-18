@@ -58,7 +58,7 @@ function SignupForm() {
 
     // Setting signup data to state
     // To be used after otp verification
-    dispatch(setSignupData(signupData))//set Data in redux central Not call the backend 
+    dispatch(setSignupData(signupData))//set Data in redux store Not call the backend 
 
     // Send OTP to user for verification Call Backend Function;
     dispatch(sendOtp(formData.email, navigate,name));

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-
+//handle when go wrong route
 export default function ErrorPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-richblack-800 to-richblack-900 px-4 text-center">

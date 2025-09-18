@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import CountryCode from "../../../data/countrycode.json"
 import { apiConnector } from "../../../services/apiconnector"
 import { contactusEndpoint } from "../../../services/apis"
+import toast from "react-hot-toast"
 
 const ContactUsForm = () => {
   const [loading, setLoading] = useState(false)
@@ -19,18 +20,30 @@ const ContactUsForm = () => {
 
   // Submit function
   const submitContactForm = async (data) => {
+    // console.log("Form Data - ", data)
+    const toastId = toast.loading("Sending...")
     try {
-      setLoading(true)
-      console.log("Form Data - ", data)
-
-      // API call (currently commented out)
-      // const res = await apiConnector("POST", contactusEndpoint.CONTACT_US_API, data)
-      // console.log("Email Res - ", res)
-
+     
+      const res = await apiConnector(
+        "POST",
+        contactusEndpoint.CONTACT_US_API,
+        data
+      )
+      console.log("Email Res - ", res)
       setLoading(false)
+      if(res.data.success){
+        toast.dismiss(toastId);
+        toast.success(res.data.message);
+      }
+      else{
+        toast.dismiss(toastId);
+        toast.error("Server busy Try Again!");
+      }
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
-      setLoading(false)
+      setLoading(false);
+       toast.dismiss(toastId);
+      toast.error("Server Down Try Again!");
     }
   }
 

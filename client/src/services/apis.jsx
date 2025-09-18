@@ -44,6 +44,7 @@ export const courseEndpoints = {
   GET_FULL_COURSE_DETAILS_AUTHENTICATED: BASE_URL + "/course/getFullCourseDetails",
   LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
   CREATE_RATING_API: BASE_URL + "/course/createRating",
+  CREATE_CATEGORY_API:BASE_URL + "/course/createCategory"
  
 }
 
@@ -62,6 +63,7 @@ export const categories = {
 export const catalogData = {
   CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
 }
+
 // CONTACT-US API
 export const contactusEndpoint = {
   CONTACT_US_API: BASE_URL + "/reach/contact",
@@ -74,3 +76,12 @@ export const settingsEndpoints = {
   CHANGE_PASSWORD_API: BASE_URL + "/auth/changepassword",
   DELETE_PROFILE_API: BASE_URL + "/profile/deleteProfile",
 }
+
+
+//Cart Api
+export const cartEndpoints = {
+  ADD_TO_CART_API: BASE_URL + "/cart/addCart",
+  REMOVE_FROM_CART_API: BASE_URL + "/cart/removeCart",
+  CLEAR_CART_API: BASE_URL + "/cart/clearCart",
+  GET_USER_CART_API: BASE_URL + "/cart/userCart",
+};

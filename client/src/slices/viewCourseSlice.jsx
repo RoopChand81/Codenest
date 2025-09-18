@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+//it store all data when student after purchages consume it 
 const initialState = {
   courseSectionData: [],
   courseEntireData: [],

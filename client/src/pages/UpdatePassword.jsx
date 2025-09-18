@@ -26,6 +26,7 @@ const UpdatePassword = () => {
       const {password,confirmPassword}=formData;//extract password Value which send using dispatch;
       
       const handleOnChange=(e)=>{
+        
             setFormData((preData)=>(
                   {
                         ...preData,

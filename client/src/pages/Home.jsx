@@ -146,7 +146,7 @@ function Home() {
           />
 
         </div>
-        {/* All tab Data rerender using the ExploreMore */}
+        {/* All tab Data rerender using the ExploreMore Tab section */}
         <ExploreMore/>
         {/* Section1 End       */}
       </div>
@@ -183,7 +183,7 @@ function Home() {
 
             <div className="flex flex-col items-start gap-10 lg:w-[40%]">
               <div className="text-[16px]">
-                The modern StudyNotion is the dictates its own terms. Today, to
+                The modern Codenest is the dictates its own terms. Today, to
                 be a competitive specialist requires more than professional
                 skills.
               </div>
@@ -193,6 +193,7 @@ function Home() {
               </CTAButton>
             </div>
           </div>
+
           {/* Timeline Section - Section 2 */}
           <TimelineSection />
 

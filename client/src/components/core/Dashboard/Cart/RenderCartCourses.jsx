@@ -5,10 +5,20 @@ import {RiDeleteBin6Line} from "react-icons/ri"
 import { removeFromCart } from '../../../../slices/cartSlice'
 import ReactStars from "react-rating-stars-component";
 import { Link } from 'react-router-dom';
+import { removeCart } from '../../../../services/operations/cartAPI'
+import toast from 'react-hot-toast'
 const RenderCartCourses = () => {
 
     const {cart} = useSelector((state) => state.cart);
     const dispatch = useDispatch();
+    const {token} = useSelector((state)=>state.auth);
+
+    const handleCartUpdate=async (courseId)=>{
+        const response=await removeCart(courseId,token,dispatch);
+        if(!response.data.success){
+            toast.error("Failed to remove course")
+        }
+    }
 
 
   return (
@@ -48,7 +58,7 @@ const RenderCartCourses = () => {
                 <div className='flex flex-col items-end  space-y-2 crimson'>
                     <p className='mb-6 text-2xl md:text-3xl font-medium text-yellow-100'>₹ {course?.price} </p>
                     <button className='flex items-center gap-x-1 rounded-md border border-richblack-600 bg-richblack-700 py-2 px-[8px] text-pink-200 text-lg font-medium'
-                    onClick={() => dispatch(removeFromCart(course._id))}
+                        onClick={() => handleCartUpdate(course._id)}
                     >
                         <RiDeleteBin6Line/>
                         <span></span>

@@ -13,6 +13,10 @@ const CourseSlider = ({Courses}) => {
     <>
       {Courses?.length ? (
         <Swiper
+        // CSS imports → include Swiper’s default styles, free-mode, and pagination styles.
+        // FreeMode, Pagination → Swiper modules for extra functionality:
+        // FreeMode → lets users swipe freely without snapping to slides.
+        // Pagination → adds dots under the slider for navigation.
           slidesPerView={1}
           spaceBetween={25}
           loop={true}

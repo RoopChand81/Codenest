@@ -6,6 +6,7 @@ import courseReducer from "../slices/courseSlice"
 import viewCourseReducer from "../slices/viewCourseSlice";
 import loadingBarReducer from "../slices/loadingBarSlice";
 
+//combine all slice reducer into single object;
 const rootReducer=combineReducers({
       auth: authReducer,
       profile:profileReducer,

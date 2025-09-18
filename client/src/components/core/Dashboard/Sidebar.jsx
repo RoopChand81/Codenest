@@ -21,7 +21,9 @@ const Sidebar = ({ showModalHandler,showModal }) => {
       {/* Sidebar Links */}
       <div className='flex flex-col gap-4 w-full'>
         {
+          //sidebarLinks static data;
           sidebarLinks.map((link) => {
+            //this if condition run when links present type of account other wise direct show (i.e profile)
             if (link.type && user?.accountType !== link.type) return null;
             return (
               <SidebarLink link={link} key={link.id} iconName={link.icon} />

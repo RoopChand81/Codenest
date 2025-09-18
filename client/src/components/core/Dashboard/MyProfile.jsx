@@ -79,7 +79,6 @@ const MyProfile = () => {
                 <p className='text-richblack-5 mb-[15px] mt-[2px]'>{phoneNo}</p>
                 <p className='text-richblack-400'>Date of Birth</p>
                <p className='text-richblack-5 mb-[15px] mt-[2px]'>{dateOfBirth}</p>
-
               </div>
             </div>
         </div>

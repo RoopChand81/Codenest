@@ -13,11 +13,12 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { BsGlobe } from 'react-icons/bs';
 import { FaShareSquare } from 'react-icons/fa';
 import {IoVideocamOutline} from 'react-icons/io5';
-import { addToCart } from '../slices/cartSlice';
+import { setCart, removeFromCart } from '../slices/cartSlice';
 import { ACCOUNT_TYPE } from '../utils/constants';
 import {FaChevronDown} from 'react-icons/fa';
 import Error from "./Error"
 import ConfirmationModal from '../components/common/ConfirmationModal';
+import { addToCart,removeCart } from "../services/operations/cartAPI"
 
 const CourseDetails = () => {
     const {token} = useSelector((state) => state.auth);
@@ -31,10 +32,17 @@ const CourseDetails = () => {
     const {cart}=useSelector((state)=>state.cart);
     const [confirmationModal,setConformationModal]=useState();
 
-    //handle login user or Not according navigate;
-    const handelPayment = () => {
+    //handle payment;
+    const handelPayment = async() => {
         if(token){
-            buyCourse(token,[courseId],user,navigate,dispatch);
+            try {
+                const verifyResponse = await buyCourse(token, [courseId], user, navigate, dispatch);
+                console.log("Final Verified Payment Response:", verifyResponse);
+                // safe to call after verification
+            } catch (err) {
+                console.error("Payment failed or verification failed", err);
+            }
+
         }
         else{
           setConformationModal({
@@ -70,21 +78,35 @@ const CourseDetails = () => {
 
 
     //add to cart
-    const handelAddToCart = () => {
-        if(token){
-        dispatch(addToCart(courseDetail));
-        // console.log("handelAddToCart -> courseId", courseDetail._id)
-        }
-        else{
-          setConformationModal({
-            text1:"You are not Logged in",
-            text2:"Please login to purchase the course",
-            btn1Text:"Login",
-            btn2Text:"Cancel",
-            btn1Handler: ()=>navigate("/login"),
-            btn2Handler: ()=>setConformationModal(null),
-
-          })
+    const handelAddToCart = async () => {
+        if (token) {
+            try {
+                
+                const courseId=courseDetail._id;
+                const response = await addToCart(courseId, token,dispatch);
+               
+                console.log("Response; ",response)
+                if (response.data.success) {
+                    // Update Redux slice with the new course
+                     console.log("Add a course in cart");
+                    dispatch(setCart(courseDetail));
+                    toast.success("Course added to cart")
+                } else {
+                    toast.error(response.message || "Failed to add course")
+                }
+            } catch (error) {
+                console.error("Error adding course to cart:", error)
+                toast.error("Something went wrong")
+            }
+        } else {
+            setConformationModal({
+                text1: "You are not Logged in",
+                text2: "Please login to purchase the course",
+                btn1Text: "Login",
+                btn2Text: "Cancel",
+                btn1Handler: () => navigate("/login"),
+                btn2Handler: () => setConformationModal(null),
+            })
         }
     }
 

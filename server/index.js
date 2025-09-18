@@ -16,7 +16,11 @@ const {cloudinaryConnect}=require('./config/cloudinary');
 const userRoutes = require('./routers/user');
 const profileRoutes = require('./routers/profile');
 const paymentRoutes = require('./routers/payments');
-const courseRoutes = require('./routers/course')
+const courseRoutes = require('./routers/course');
+const cartRoutes=require('./routers/cart');
+const contactUsRoute=require('./routers/Contact');
+
+
 
 //midleware
 app.use(express.json());
@@ -25,9 +29,9 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-     // "http://localhost:3000",
-      "https://codenest-cz7r.vercel.app",
-      "https://codenest-edtech.netlify.app",
+      //"http://localhost:3000",
+      // "https://codenest-cz7r.vercel.app",
+       "https://codenest-edtech.netlify.app",
     ], //jo requrest frentend se ayega use entertain karana hai
     credentials: true,
   })
@@ -51,6 +55,8 @@ app.use('/api/v1/auth',userRoutes);
 app.use('/api/v1/profile',profileRoutes);
 app.use('/api/v1/payment',paymentRoutes);
 app.use('/api/v1/course',courseRoutes);
+app.use('/api/v1/cart',cartRoutes);
+app.use("/api/v1/reach", contactUsRoute);
 
 //Defalt Routes(Home page)
 app.get('/',(req,res)=>{

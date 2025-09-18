@@ -19,16 +19,19 @@ exports.auth =async(req,res,next)=>{
                         success:false
                   });
             }
-
+            console.log("this is token :",token);
             //verify the token 
             try{
                   const decoded =  jwt.verify(token,process.env.JWT_SECRET);
-                  console.log(decoded);
+                  console.log("Decode Data:" ,decoded);
                   req.user = decoded;//add in user
             }catch(error){
+                  console.log("this is error :", error);
                   return res.status(401).json({
                         message:"Error while decoding token",
-                        success:false
+                        success:false,
+                        error
+                        
                   });
             }
             next();

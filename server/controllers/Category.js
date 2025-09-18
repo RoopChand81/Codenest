@@ -89,6 +89,9 @@ exports.getCategoryPageDetails=async(req,res)=>{
           return res.status(404).json({
             message: "No course found under this category",
             success: false,
+            data:{
+              selectedCategory,
+            }
           });
         }
 
@@ -143,6 +146,7 @@ exports.getCategoryPageDetails=async(req,res)=>{
             topSellingCourses,
           },
         });
+        
       }catch(error){
             return res.status(500).json({
                   message:"Error retrieving category page details",
