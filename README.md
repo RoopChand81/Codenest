@@ -26,7 +26,7 @@ The platform is built using the **MERN stack**, which includes ReactJS, NodeJS, 
 | [Schema](#schema-)                  | 🗂 Explanation of data schemas used          |
 | [React Hooks](#react-hooks-)            | 🎣 Overview of React Hooks utilized          |
 | [React Library](#react-library-)         | ⚛️📚 Overview of React Libraries used        |
-| [Screen Preview](#Screen-Preview-)         | 🖥️ Screen Preview        |
+| [Screen Preview](#screen-preview-)         | 🖥️ Screen Preview        |
 
 
 
