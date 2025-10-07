@@ -36,6 +36,7 @@ export default function MyCourses() {
           <VscAdd />
         </IconBtn>
       </div>
+      
       {courses && <CoursesTable courses={courses} setCourses={setCourses} />}
     </div>
   )

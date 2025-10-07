@@ -161,6 +161,7 @@ export function login(email, password, navigate) {
   }
 }
 
+
 export function logout(navigate) {
   return (dispatch) => {
     dispatch(setToken(null))

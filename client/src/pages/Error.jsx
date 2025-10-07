@@ -2,8 +2,7 @@ import { Link } from "react-router-dom"
 //handle when go wrong route
 export default function ErrorPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-richblack-800 to-richblack-900 px-4 text-center">
-      
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-richblack-800 to-richblack-900 px-4 text-center"> 
       {/* Anime GIF */}
       <img
         src="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif"

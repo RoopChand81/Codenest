@@ -34,7 +34,7 @@ exports.updateProfile=async (req,res)=>{
             if (!userUpdatedDetails) {
                   return res.status(404).json({ success: false, message: "User not found" });
             }
-            
+            //take  profiel id
             const profileId=userUpdatedDetails.additionalDetails;
             if (!profileId) {
                   return res.status(404).json({ success: false, message: "Profile not found" });

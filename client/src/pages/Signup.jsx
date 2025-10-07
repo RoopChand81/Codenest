@@ -3,7 +3,6 @@ import signupImg from "../assets/Images/signup2.webp"
 import Template from "../components/core/Auth/Template"
 
 function Signup() {
-  
   return (
     <Template
       title="Join the millions learning to code with Codenest for free"

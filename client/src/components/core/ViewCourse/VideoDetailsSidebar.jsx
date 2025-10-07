@@ -8,6 +8,7 @@ import { RxCross2 } from "react-icons/rx";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function VideoDetailsSidebar({ setReviewModal }) {
+  
   const [activeStatus, setActiveStatus] = useState("");
   const [videoBarActive, setVideoBarActive] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false); // for mobile toggle

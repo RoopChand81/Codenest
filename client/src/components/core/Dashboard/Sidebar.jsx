@@ -13,7 +13,6 @@ const Sidebar = ({ showModalHandler,showModal }) => {
   }
 
   const location = useLocation();
-
   return (
     <div className='min-h-[calc(100vh-3.5rem)] w-[200px] md:w-[20%] bg-richblack-800 border-r-[1px]
     border-r-richblack-700 flex flex-col items-center md:items-start px-2 gap-4 py-6'>

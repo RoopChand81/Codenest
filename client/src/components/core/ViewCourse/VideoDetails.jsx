@@ -94,10 +94,12 @@ const VideoDetails = () => {
     setLoading(false)
   }
 
+  
   const handleVideoEnd = () => {
     setVideoEnd(true)
   }
 
+  //handle reply logic
   const handleReplay = () => {
     if (playerRef.current) {
       playerRef.current.currentTime = 0

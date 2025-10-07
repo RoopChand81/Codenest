@@ -17,8 +17,7 @@ const Catalog = () => {
   const [catalogPageData, setCatalogPageData] = useState(null);
   const [categoryId, setCategoryId] = useState("");
   const dispatch=useDispatch();
-
-    //Fetch all categories
+   //Fetch all categories
     useEffect(()=> {
         const getCategories = async() => {
             const res = await apiConnector("GET", categories.CATEGORIES_API);

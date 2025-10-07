@@ -14,6 +14,7 @@ exports.capturePayment = async (req, res) => {
   const { courses } = req.body;
   const userId = req.user.id;
 
+  
   //validation
   //valid courseID
   try {

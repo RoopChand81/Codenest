@@ -9,6 +9,7 @@ import { resetPassword } from '../services/operations/authAPI';
 import {BiArrowBack} from "react-icons/bi"
 
 
+
 const UpdatePassword = () => {
       const navigate = useNavigate()
       const dispatch=useDispatch();

@@ -39,6 +39,7 @@ const MyProfile = () => {
           </div>
         </div>
 
+        
         {/* Section 2 */}
         <div className='my-10 flex flex-col gap-y-3 md:gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-3 md:p-8 md:px-12'>
             <div className='flex w-full items-center justify-between'>

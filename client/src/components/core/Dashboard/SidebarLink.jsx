@@ -9,6 +9,7 @@ const SidebarLink = ({link,iconName}) => {
       const location = useLocation();
 
   return (
+      
     <div>
       <NavLink to={link.path}  className={({ isActive }) =>
                   `px-3 py-2 text-md font-medium flex  ${

@@ -36,6 +36,7 @@ export const addToCart= async (courseId, token,dispatch)=> {
     return result;
 }
 
+
 // Remove a course from cart
 export const removeCart=async (courseId, token,dispatch)=> {
     let result=null;

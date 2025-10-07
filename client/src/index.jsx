@@ -19,7 +19,7 @@ root.render(
     {/* provider use for redux toolkit */}
     <Provider store={store}>  
 
-       <BrowserRouter>
+      <BrowserRouter>
         <App />
         <Toaster/>
       </BrowserRouter>

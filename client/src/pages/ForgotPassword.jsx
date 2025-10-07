@@ -10,7 +10,6 @@ import { Link } from "react-router-dom"
 import { getPasswordResetToken } from "../services/operations/authAPI"
 
 function ForgotPassword() {
-  
   const [email, setEmail] = useState("")
   const [emailSent, setEmailSent] = useState(false)//it decied which show and also stauts of emailSent or Not
   const dispatch = useDispatch()

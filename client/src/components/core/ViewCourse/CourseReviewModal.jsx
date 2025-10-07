@@ -10,7 +10,6 @@ const ReviewModal = ({ setReviewModal }) => {
   const { user } = useSelector(state => state.profile);
   const { token } = useSelector(state => state.auth);
   const { courseId } = useParams();
-
   const {
     register,
     handleSubmit,

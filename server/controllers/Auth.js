@@ -245,9 +245,9 @@ exports.changePassword = async (req, res) => {
             //get Data from the req body
             const {oldPassword, newPassword, confirmPassword} = req.body;
             
-            console.log("oldPass: ",oldPassword);
-            console.log("newPass: ",newPassword);
-            console.log("confirmPass: ",confirmPassword);
+            // console.log("oldPass: ",oldPassword);
+            // console.log("newPass: ",newPassword);
+            // console.log("confirmPass: ",confirmPassword);
             //validation
             if(!oldPassword || !newPassword || !confirmPassword){
                   return res.status(400).json({

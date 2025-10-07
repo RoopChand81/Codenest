@@ -10,9 +10,8 @@ export default function InstructorChart({ courses }) {
   const generateRandomColors = (numColors) => {
     const colors = []
     for (let i = 0; i < numColors; i++) {
-      const color = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(
-        Math.random() * 256
-      )}, ${Math.floor(Math.random() * 256)})`
+      const color = `rgb(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)},
+       ${Math.floor(Math.random() * 256)})`
       colors.push(color)
     }
     return colors

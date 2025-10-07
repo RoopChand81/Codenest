@@ -14,7 +14,6 @@ import ReviewSlider from "../components/common/ReviewSlider";
 import { useSelector } from "react-redux";
 import auth from "../slices/authSlice"
 
-
 function Home() {
   const {token}=useSelector((state)=>state.auth);
   return (

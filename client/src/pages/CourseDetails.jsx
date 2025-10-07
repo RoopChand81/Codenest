@@ -32,6 +32,7 @@ const CourseDetails = () => {
     const {cart}=useSelector((state)=>state.cart);
     const [confirmationModal,setConformationModal]=useState();
 
+    
     //handle payment;
     const handelPayment = async() => {
         if(token){

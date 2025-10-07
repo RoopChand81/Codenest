@@ -12,6 +12,7 @@ const EnrolledCourse = () => {
   const dispatch=useDispatch();
   const navigate=useNavigate();
 
+  
   const getEnrolledCourses = async () => {
     try {
       const response = await dispatch(getUserEnrolledCourses(token));
