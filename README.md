@@ -26,7 +26,7 @@ The platform is built using the **MERN stack**, which includes ReactJS, NodeJS, 
 | [Schema](#schema-)                  | 🗂 Explanation of data schemas used          |
 | [React Hooks](#react-hooks-)            | 🎣 Overview of React Hooks utilized          |
 | [React Library](#react-library-)         | ⚛️📚 Overview of React Libraries used        |
-| [Screen Preview](#screen-preview-)         | 🖥️ Screen Preview        |
+| [Screen Preview](#Screen-Preview-)         | 🖥️ Screen Preview        |
 
 
 
@@ -162,7 +162,7 @@ Utilized several React hooks for efficient state management and dynamic behavior
 
 <br/>
 
-## 📚 **React Library**:
+## React Library 📚:
 
 - 🚀 **Lazy Loading**: Enhance performance by lazily loading images using the react-lazy-load-image library.
 - 📊 **Chart.js:**  Versatile charting library for creating interactive and visually appealing charts.
@@ -177,7 +177,7 @@ Utilized several React hooks for efficient state management and dynamic behavior
 
 
 
-##  🖥️ Screen Preview :
+## Screen Preview 🖥️ :
 
 # Home Page Background 🏠 
 <img width='100%' src='https://github.com/RoopChand81/Codenest/blob/main/GitHubImage/home.png' />
