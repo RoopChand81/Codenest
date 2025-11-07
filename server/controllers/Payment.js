@@ -190,9 +190,9 @@ const enrollStudents = async (courses, userId) => {
         template
       );
 
-      console.log("Email Sent Successfully", emailResponse);
+      //console.log("Email Sent Successfully", emailResponse);
     } catch (error) {
-      console.error("Error enrolling student:", error.message);
+      //console.error("Error enrolling student:", error.message);
       throw new Error("Failed to enroll student: " + error.message);
     }
   }

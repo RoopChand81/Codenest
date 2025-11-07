@@ -19,7 +19,6 @@ exports.auth =async(req,res,next)=>{
                         success:false
                   });
             }
-            console.log("this is token :",token);
             //verify the token 
             try{
                   const decoded =  jwt.verify(token,process.env.JWT_SECRET);

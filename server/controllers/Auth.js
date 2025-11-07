@@ -33,8 +33,7 @@ exports.sendOTP=async(req,res)=>
                   return crypto.randomInt(100000, 999999).toString(); // Secure 6-digit OTP
             }
             let otp=generateOTP();
-            console.log("OTP genrated: ",otp);
-
+            //send OTP to user email
             const template = otpTemplate(otp, name);
             await mailSender(email,'OTP Verification Email from CodeNest',template);
 
@@ -44,7 +43,6 @@ exports.sendOTP=async(req,res)=>
             //make enrty in DB with unique otp
             const otpPayload={email,otp};
             const otpBody=await OTP.create(otpPayload);//called OTP pre function and save otp in DB
-            console.log("OTP entry created: ",otpBody);
 
             //return success msg as response
             res.status(200).json({
@@ -54,7 +52,6 @@ exports.sendOTP=async(req,res)=>
             });
             
      }catch(error){
-            console.log(error);
             return res.status(401).json({
                   message:"Error while Genrating OTP",
                   success:false,
@@ -114,7 +111,6 @@ exports.signUp=async (req,res)=>{
             //this way most recently created OTP will retunned first;
             //.limit(1): it limit the number of documents to 1
 
-            console.log(recentOTP);
             //if OTP not found 
             if(!recentOTP || recentOTP.length==0)
             {
@@ -160,7 +156,6 @@ exports.signUp=async (req,res)=>{
                   user:user
             })
       }catch(error){
-            console.log(error);
             return res.status(500).json({
                   success:false,
                   message:"Account Not create Try Again !!",
@@ -229,7 +224,6 @@ exports.login=async (req,res)=>{
             })
 
       }catch(error){
-            console.log(error);
             return res.status(500).json({
                   success:false,
                   message:"Login Failure,please try again",

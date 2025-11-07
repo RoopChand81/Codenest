@@ -35,9 +35,9 @@ exports.resetPassowrdToken=async(req,res)=>{
                   {new:true}//return updated details
             );
 
-            
-            const resetLink =`http://localhost:3000/update-password/${token}`;
-            const emailBody = resetPasswordTemplate("John", resetLink);//html Reset password template
+            const name=user.firstName+" "+user.lastName;
+            const resetLink = `https://codenest-edtech.netlify.app/update-password/${token}`;
+            const emailBody = resetPasswordTemplate(name, resetLink);//html Reset password template
             await mailSender(
               email,
               "Reset Your Password",
@@ -52,7 +52,6 @@ exports.resetPassowrdToken=async(req,res)=>{
             });
 
       }catch(error){
-            console.log(error);
             return res.status(500).json({
                   success:false,
                   message:"Something went wrong while sendig reset link"

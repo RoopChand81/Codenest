@@ -39,6 +39,7 @@ exports.createCategory=async(req,res)=>{
 
 //=============get all Category====================
 exports.showAllCategories=async(req,res)=>{
+  //it show all categories available in DB
       try {
             const allCategory = await Category.find(
               {},
