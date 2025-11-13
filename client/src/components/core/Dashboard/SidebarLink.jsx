@@ -7,9 +7,8 @@ const SidebarLink = ({link,iconName}) => {
       const DynamicIcon = VscIcons[iconName];  //
       const dispatch = useDispatch();
       const location = useLocation();
-
-  return (
       
+  return (
     <div>
       <NavLink to={link.path}  className={({ isActive }) =>
                   `px-3 py-2 text-md font-medium flex  ${

@@ -1,13 +1,14 @@
 
 import React from 'react'
-import { getFullDetailsOfCourse } from '../../../../services/operations/courseDetailsAPI';
+import { getFullDetailsOfCourseForInstructor } from '../../../../services/operations/courseDetailsAPI';
 import { setCourse, setEditCourse, setStep } from '../../../../slices/courseSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import RenderSteps from '../AddCourse/RenderSteps';
+import toast from 'react-hot-toast';
 
 const EditCourse = () => {
     const {token} = useSelector((state) => state.auth);
@@ -15,18 +16,23 @@ const EditCourse = () => {
     const {courseId} = useParams();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate=useNavigate();
 
       //fetch all Course using courseId and set this courseDetails in slice
     useEffect(() => {
         const popualteCourse = async () => {
             setLoading(true);
-            const result = await getFullDetailsOfCourse(courseId, token,dispatch);
+            const result = await getFullDetailsOfCourseForInstructor(courseId, token,dispatch);
             console.log("result",result)
-            if(result?.courseDetails) {
-                dispatch(setCourse(result.courseDetails));
-                
+            if(result?.success) {
+                dispatch(setCourse(result.data));
+                console.log("result",result)
                 dispatch(setEditCourse(true));
                 dispatch(setStep(1));
+            }
+            else{
+              toast.error("Sorry Server Down Update not possible");
+              navigate("/dashboard/my-courses");
             }
             setLoading(false);
         }

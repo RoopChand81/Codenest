@@ -20,16 +20,22 @@ const CourseInformationForm = () => {
         setValue,
         getValues,
         formState:{errors},
+        reset
     } = useForm();
+
+    
 
     const dispatch = useDispatch();
     const {token} = useSelector((state)=>state.auth);
+    //Take Course Details and editable mode true or creation moode on 
     const {course, editCourse} = useSelector((state)=>state.course);
     const [loading, setLoading] = useState(false);
     const [courseCategories, setCourseCategories] = useState([]);
+    const [formUpdate,setFormUpdate]=useState(false);
 
     //access categories from backend 
     useEffect(()=> {
+        //fetch all category under that course create
         const getCategories = async() => {
             setLoading(true);
             const categories = await fetchCourseCategories();
@@ -38,7 +44,8 @@ const CourseInformationForm = () => {
             }
             setLoading(false);
         }
-
+        //if course open in editable mood then set these value in fields 
+        //these Data take from the courseSlice 
         if(editCourse) {
             setValue("courseTitle", course.courseName);
             setValue("courseShortDesc", course.courseDescription);
@@ -49,10 +56,10 @@ const CourseInformationForm = () => {
             setValue("courseRequirements", course.instructions);
             setValue("courseImage", course.thumbnail);
         }
-
         getCategories();
     },[])
 
+    //check the form Update any field is updated or not
     const isFormUpdated = () => {
         const currentValues = getValues();
         if(currentValues.courseTitle !== course.courseName ||
@@ -71,11 +78,14 @@ const CourseInformationForm = () => {
 
     //handles next button click 
     const onSubmit = async(data) => {
-
-        if(editCourse) {
+        //editable mood on then check form updated or not
+        if(editCourse) { 
+            //check form updated or not according that update form datat
             if(isFormUpdated()) {
                 const currentValues = getValues();
                 const formData = new FormData();
+                console.log("current ",currentValues);
+                console.log("course.id",course);
 
                 formData.append("courseId", course._id);
                 if(currentValues.courseTitle !== course.courseName) {
@@ -101,11 +111,14 @@ const CourseInformationForm = () => {
                 if(currentValues.courseRequirements.toString() !== course.instruction.toString()) {
                     formData.append("instruction", JSON.stringify(data.courseRequirements));
                 }
+                console.log("Edit Course",formData);
 
                 setLoading(true);
+                //make backend call for save the data in DB.
                 const result = await editCourseDetails(formData, token);
                 setLoading(false);
                 if(result) {
+                    //update the course Slice
                     dispatch(setEditCourse(false));
                     dispatch(setStep(2));
                     dispatch(setCourse(result)); 
@@ -114,9 +127,7 @@ const CourseInformationForm = () => {
             else {
                 toast.error("NO Changes made so far");
             }
-            //console.log("PRINTING FORMDATA", [...formData]);
-            //console.log("PRINTING result", result);
-
+            
             return;
         }
 
@@ -133,28 +144,24 @@ const CourseInformationForm = () => {
         formData.append("thumbnailImage", data.courseImage);
 
         setLoading(true);
-        console.log("BEFORE add course API call");
-        console.log("PRINTING FORMDATA", formData);
+        //new Course update in DB.
         const result = await addCourseDetails(formData,token);
         if(result) {
-            
+            //update the CourseSlice 
             dispatch(setCourse(result.course));
             dispatch(setEditCourse(true));
             dispatch(setStep(2));
 
         }
         setLoading(false);
-        console.log("AFTER add course API call");
-        console.log("PRINTING FORMDATA", [...formData]);
-        console.log("PRINTING result", course);
-        console.log("Edit Value",editCourse);
+        
 
     }
 
   return (
     <form
-    onSubmit={handleSubmit(onSubmit)}
-    className='space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6'
+        onSubmit={handleSubmit(onSubmit)}
+        className='space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6'
     >
         <div className='flex flex-col space-y-2'>
             <label className='text-sm text-richblack-5'  htmlFor='courseTitle'>Course Title<sup className='text-pink-200'>*</sup></label>
@@ -197,7 +204,7 @@ const CourseInformationForm = () => {
             <label className='text-sm text-richblack-5' htmlFor='coursePrice'>Course Price<sup className='text-pink-200'>*</sup></label>
             <input
                 id='coursePrice'
-                placeholder='      Enter Course Price'
+                placeholder='Enter Course Price'
                 {...register("coursePrice", {
                     required:true,
                     valueAsNumber:true
@@ -207,7 +214,7 @@ const CourseInformationForm = () => {
               }}
               className="w-full rounded-[0.5rem] bg-richblack-700 p-[12px] text-richblack-5"
             />
-            <HiOutlineCurrencyRupee size={30}  className='absolute top-9 left-1 text-richblack-400'/>
+            {/* <HiOutlineCurrencyRupee size={30}  className='absolute top-9 left-1 text-richblack-400'/> */}
             {
                 errors.coursePrice && (
                     <span className='ml-2 text-xs tracking-wide text-pink-200'>Course Price is Required**</span>
@@ -253,14 +260,14 @@ const CourseInformationForm = () => {
             getValues = {getValues}
         />
 
-        {/*component for uploading and showing preview of media */}
+        {/*component for uploading and showing preview of media  thumnail */}
         <Upload
             name={"courseImage"}
             label={"CourseImage"}
             register={register}
             errors={errors}
             setValue={setValue}
-            />
+        />
         
         {/*     Benefits of the Course */}
         <div className='flex flex-col space-y-2'>
@@ -308,5 +315,4 @@ const CourseInformationForm = () => {
     </form>
   )
 }
-
 export default CourseInformationForm

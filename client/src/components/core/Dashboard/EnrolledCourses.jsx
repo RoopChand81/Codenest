@@ -3,32 +3,34 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserEnrolledCourses } from '../../../services/operations/EnrolledCoursesAPI';
 import ProgressBar from "@ramonak/react-progress-bar"
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {ACCOUNT_TYPE} from '../../../utils/constants';
 
 const EnrolledCourse = () => {
   const { token } = useSelector((state) => state.auth);
+  const {user}=useSelector((state)=> state.profile);
   const [enrolledCourses, setEnrolledCourses] = useState(null);
   const [progressData,setProgressData]=useState([]);
   const dispatch=useDispatch();
   const navigate=useNavigate();
 
+  if(user?.accountType!==ACCOUNT_TYPE.STUDENT){
+    toast.error("You are not a Student !")
+    navigate("/dashboard/my-profile");
+  }
+
   
   const getEnrolledCourses = async () => {
     try {
       const response = await dispatch(getUserEnrolledCourses(token));
-      console.log("enrolment Course:",response);
       const courses=response.data.enrolledCourses.courses;
       if (response) {
         setEnrolledCourses(courses);
         setProgressData(response.data.progress)
-        //   console.log("print all enrolledCourse: ",courses);
-        //   console.log("single course id ",courses[0]._id);
-        //   console.log("single Section id ",courses[0].courseContent[0]._id);
-        //   console.log("single Sub-Seciton id ",courses[0].courseContent[0].SubSection[0]);
       }
     } catch (error) {
-      console.error(error);
-      toast.error("Unable to Fetch Enrolled Courses");
+      //console.error(error);
+      toast.error("Server is busy to fetch Data");
     }
   };
 
@@ -43,9 +45,6 @@ const EnrolledCourse = () => {
     })
     return totalLecture;
   };
-
-
-  
 
   return (
     <div className='mx-auto w-11/12 max-w-[1000px] py-10'>

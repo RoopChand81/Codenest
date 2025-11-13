@@ -1,4 +1,5 @@
 import "./App.css";
+import { lazy ,Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,10 +9,11 @@ import ForgotPassword from "./pages/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword";
 import VerifyEmail from "./pages/VerifyEmail";
 import Navbar from "./components/common/Navbar";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+const About = lazy(() => import("./pages/About")); // Lazy-loaded component
+import Spinner from "./components/common/Loading";
+const Contact=lazy(()=>import("./pages/Contact"));
 import Dashboard from "./pages/Dashboard";
-import Catalog from "./pages/Catalog";
+const Catalog= lazy(()=>import("./pages/Catalog"));
 import CourseDetails from "./pages/CourseDetails";
 import ViewCourse from "./pages/ViewCourse";
 import MyProfile from "./components/core/Dashboard/MyProfile";
@@ -43,7 +45,7 @@ function App() {
 
   //check user login sestion expire or not when change url
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
     const expiry = localStorage.getItem("tokenExpiry");
     //today time is more then sestion time 
     if (!token || !expiry || Date.now() > Number(expiry)) {
@@ -69,9 +71,37 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/update-password/:id" element={<UpdatePassword/>}/>
         <Route path="/verify-email" element={<VerifyEmail/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/contact" element={<Contact/>}/>
-        <Route path="/catalog/:catalogName" element={<Catalog/>}/>
+        {/* <Route path="/about" element={<About/>}/> */}
+        <Route
+            path="/about"
+            element={
+              <Suspense fallback={
+                <Spinner/>}
+              >
+                <About />
+              </Suspense>
+            }
+        />
+        <Route
+            path="/contact"
+            element={
+              <Suspense fallback={
+                <Spinner/>}
+              >
+                <Contact />
+              </Suspense>
+            }
+        />
+        <Route
+            path="/catalog/:catalogName"
+            element={
+              <Suspense fallback={
+                <Spinner/>}
+              >
+                < Catalog/>
+              </Suspense>
+            }
+        />
         <Route path="/courses/:courseId" element={<CourseDetails/>}/>
 
         {/* private route Access  check conditions */}

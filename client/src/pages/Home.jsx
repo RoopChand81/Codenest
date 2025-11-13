@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
-
 import HighlightText from "../components/core/HomePage/HighlightText";
 import CTAButton from "../components/core/HomePage/Button";
 import videoBanner from "../assets/Images/banner.mp4";
@@ -104,6 +103,7 @@ function Home() {
 
             // automatic  coding writing within Section 1 all  Details
             codeColor={"text-yellow-25"}
+            //contain the code which write automatically
             codeblock={`<!DOCTYPE html>\n <html lang="en">\n<head>\n<title>This is myPage</title>\n</head>\n<body>\n<h1><a href="/">Header</a></h1>\n<nav> <a href="/one">One</a> <a href="/two">Two</a> <a href="/three">Three</a>\n</nav>\n</body>`}
             backgroundGradient={
               "bg-[radial-gradient(circle,_rgba(255,214,10,0.3)_0%,_rgba(255,214,10,0)_80%)]"
@@ -138,6 +138,7 @@ function Home() {
             }}
             // automatic  coding writing within Section 2 all  Details
             codeColor={"text-blue-25"}
+            //contain the code which write automatically
             codeblock={`import React from "react";\n import CTAButton from "./Button";\nimport TypeAnimation from "react-type";\nimport { FaArrowRight } from "react-icons/fa";\n\nconst Home = () => {\nreturn (\n<div>Home</div>\n)\n}\nexport default Home;`}
             backgroundGradient={
               "bg-[radial-gradient(circle,_rgba(63,55,171,100)_0%,_rgba(17,138,178,0)_80%)]"

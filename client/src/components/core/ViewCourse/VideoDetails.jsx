@@ -35,7 +35,8 @@ const VideoDetails = () => {
     setVideoData(filteredSubsection)
     setVideoEnd(false)
   }, [courseSectionData, sectionId, SubSectionId])
-
+  
+  
   const isFirstLecture = () => {
     const sectionIndex = courseSectionData.findIndex(sec => sec._id === sectionId)
     const subIndex = courseSectionData[sectionIndex]?.SubSection.findIndex(sub => sub._id === SubSectionId)

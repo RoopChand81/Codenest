@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const MyProfile = () => {
   const {user}=useSelector(state=>state.profile)
   const navigate=useNavigate();
-  console.log(user);
+  //console.log(user);
   const name=user.firstName+" "+user.lastName;
   const about=user.additionalDetails.about?user.additionalDetails.about:"Write Somthing about Yourself";
   const firstName=user?.firstName?user.firstName:"User";

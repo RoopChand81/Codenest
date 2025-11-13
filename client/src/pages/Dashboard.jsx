@@ -5,6 +5,7 @@ import Sidebar from '../components/core/Dashboard/Sidebar';
 import ConfirmationModal from "../components/common/ConfirmationModal";
 import { logout } from "../services/operations/authAPI";
 import Footer from '../components/common/Footer';
+import Spinner from '../components/common/Loading';
 const Dashboard = () => {
   const { token, loading: authLoading } = useSelector((state) => state.auth);
   const { user, loading: profileLoading } = useSelector((state) => state.profile);
@@ -29,7 +30,9 @@ const Dashboard = () => {
   
 
   if (authLoading || profileLoading) {
-    return <div>Loading...</div>;
+    return <div>
+      <Spinner/>
+    </div>;
   }
 
   return (

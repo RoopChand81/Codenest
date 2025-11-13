@@ -128,6 +128,7 @@ export default function CoursesTable({ courses, setCourses }) {
                     <FiEdit2 size={20} />
                   </button>
 
+                  
                   <button
                     disabled={loading}
                     onClick={() => {

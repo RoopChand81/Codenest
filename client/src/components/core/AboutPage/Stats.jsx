@@ -7,6 +7,7 @@ const Stats = [
   { count: "50+", label: "Awards" },
 ];
 
+
 const StatsComponenet = () => {
   return (
     <div className="bg-richblack-700">

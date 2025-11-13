@@ -1,4 +1,5 @@
-//Actual contact only form;
+//Actual contact only form which contain input field and submit button and handle form submission
+// using react-hook-form and send data to backend api;
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -29,7 +30,7 @@ const ContactUsForm = () => {
         contactusEndpoint.CONTACT_US_API,
         data
       )
-      console.log("Email Res - ", res)
+      //console.log("Email Res - ", res)
       setLoading(false)
       if(res.data.success){
         toast.dismiss(toastId);
@@ -40,9 +41,9 @@ const ContactUsForm = () => {
         toast.error("Server busy Try Again!");
       }
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      //console.log("ERROR MESSAGE - ", error.message)
       setLoading(false);
-       toast.dismiss(toastId);
+      toast.dismiss(toastId);
       toast.error("Server Down Try Again!");
     }
   }

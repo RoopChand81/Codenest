@@ -1,3 +1,4 @@
+//fetch compelete catlog page details
 import {toast} from "react-hot-toast"
 import { setProgress } from "../../slices/loadingBarSlice";
 import { apiConnector } from "../apiconnector";
@@ -8,18 +9,16 @@ export const getCatalogaPageData = async(categoryId,dispatch) => {
   dispatch(setProgress(50));
   let result = [];
   try{
-        const response = await apiConnector("POST", catalogData.CATALOGPAGEDATA_API, 
-        {categoryId: categoryId,});
-        console.log("CATALOG PAGE DATA API RESPONSE....", response);
-        if(!response.data.success)
-            throw new Error("Could not Fetch Category page data error",
-            response);
-
-         result = response?.data;
+    const response = await apiConnector("POST", catalogData.CATALOGPAGEDATA_API, 
+    {categoryId: categoryId,});
+        //console.log("CATALOG PAGE DATA API RESPONSE....", response);
+    if(!response.data.success)
+      throw new Error("Could not Fetch Category page data error",response);
+    result = response?.data;
 
   }
   catch(error) {
-    console.error("CATALOG PAGE DATA API ERROR....", error);
+    //console.error("CATALOG PAGE DATA API ERROR....", error);
     toast.error("No Course added to this category yet");
     result = error.response?.data;
   }

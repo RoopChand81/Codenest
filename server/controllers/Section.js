@@ -50,7 +50,7 @@ exports.createSection = async (req, res) => {
       updatedCourseDetails,
     });
   } catch (error) {
-    console.log(error);
+    
     return res.status(500).json({
       message: "Unable to create the Section Try Again ",
       success: false,
@@ -119,7 +119,7 @@ exports.updateSection = async (req, res) => {
       updatedCourse: courseDetails,
     });
   } catch (error) {
-    console.error("UPDATE SECTION ERROR:", error);
+    //console.error("UPDATE SECTION ERROR:", error);
     return res.status(500).json({
       message: "Unable to update the section. Try again.",
       success: false,

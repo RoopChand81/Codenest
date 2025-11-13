@@ -4,12 +4,15 @@ import { useSelector } from 'react-redux'
 import SidebarLink from './SidebarLink'
 import { useLocation } from 'react-router-dom'
 import { VscSignOut } from "react-icons/vsc";
+import Spinnner from "../../common/Loading"
 
 const Sidebar = ({ showModalHandler,showModal }) => {
   const { user, loading: loadingProfile } = useSelector((state) => state.profile);
 
   if (loadingProfile) {
-    return <div>Loading...</div>
+    return <div>
+      <Spinnner/>
+    </div>
   }
 
   const location = useLocation();
@@ -22,7 +25,7 @@ const Sidebar = ({ showModalHandler,showModal }) => {
         {
           //sidebarLinks static data;
           sidebarLinks.map((link) => {
-            //this if condition run when links present type of account other wise direct show (i.e profile)
+            //jo link Login user ke link se match karenge o functionality show karenge
             if (link.type && user?.accountType !== link.type) return null;
             return (
               <SidebarLink link={link} key={link.id} iconName={link.icon} />
@@ -34,7 +37,7 @@ const Sidebar = ({ showModalHandler,showModal }) => {
       {/* Divider */}
       <div className='w-full h-[1.5px] bg-richblack-700 my-4'></div>
 
-      {/* Settings & Logout */}
+      {/* Settings & Logout  Show for every login type user*/}
       <div className='flex flex-col w-full gap-3'>
         <SidebarLink link={{ name: "Setting", path: "dashboard/settings" }} iconName={"VscSettingsGear"} />
 

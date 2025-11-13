@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
-      token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null,//find the token in local storage in windows
+      token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")):null,//find the token in local storage in windows
       loading: false,
       signupData: null,
 };

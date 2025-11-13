@@ -1,3 +1,4 @@
+//it store courese creation information i.e on which step present 
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {

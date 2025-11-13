@@ -7,7 +7,8 @@ import { getCatalogaPageData } from '../services/operations/pageAndComponentData
 import Course_Card from '../components/core/Catalog/Course_Card';
 import CourseSlider from '../components/core/Catalog/CourseSlider';
 import { useDispatch, useSelector } from "react-redux"
-import Error from "./Error"
+import toast from 'react-hot-toast';
+import Spinner from '../components/common/Loading';
 
 const Catalog = () => {
 
@@ -28,16 +29,18 @@ const Catalog = () => {
         getCategories();
     },[catalogName]);
 
+    //fetch all category  page details
     useEffect(() => {
         const getCategoryDetails = async() => {
             try{
                 const res = await getCatalogaPageData(categoryId,dispatch);
-                console.log("PRinting res: ", res);
+                //console.log("PRinting res: ", res);
                 setCatalogPageData(res);
                 
             }
             catch(error) {
-                console.log(error)
+               // console.log(error)
+                toast.error("something server Error!")
             }
         }
         if(categoryId) {
@@ -50,7 +53,7 @@ const Catalog = () => {
     if (loading || !catalogPageData) {
         return (
           <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
-            <div className="spinner"></div>
+            <Spinner/>
           </div>
         )
       }

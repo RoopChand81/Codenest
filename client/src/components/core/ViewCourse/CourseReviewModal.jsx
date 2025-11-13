@@ -30,7 +30,7 @@ const ReviewModal = ({ setReviewModal }) => {
       rating: data.userRating
     }, token);
     setReviewModal(false);
-    console.log(res);
+    //console.log(res);
   };
 
   return (

@@ -6,6 +6,7 @@ import { updateProfile } from "../../../../services/operations/SettingAPI"
 
 //import { updateProfile } from "../../../../services/operations/SettingsAPI"
 import IconBtn from "../../../common/IconBtn"
+import toast from "react-hot-toast"
 
 const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"]
 
@@ -23,11 +24,12 @@ export default function EditProfile() {
   } = useForm()
 
   const submitProfileForm = async (data) => {
-    console.log("Form Data - ", data)
+    //console.log("Form Data - ", data)
     try {
       dispatch(updateProfile(token, data))
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      //console.log("ERROR MESSAGE - ", error.message)
+      toast.error("Profile Details not Update");
     }
   }
   

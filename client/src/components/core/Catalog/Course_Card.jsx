@@ -1,3 +1,5 @@
+// Course_Card component to display individual course details including thumbnail, name, instructor, rating, and price
+// It uses Link from react-router-dom to navigate to the course detail page
 import React, { useEffect, useState } from 'react'
 import RatingStars from '../../common/RatingStars'
 import GetAvgRating from '../../../utils/avgRating';

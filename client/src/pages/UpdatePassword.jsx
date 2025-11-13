@@ -34,14 +34,16 @@ const UpdatePassword = () => {
                         [e.target.name]:e.target.value,
                   }
             ))
-      }
+    }
 
-      const handleOnSubmit=(e)=>{
+
+    const handleOnSubmit=(e)=>{
             e.preventDefault();               
             //pathName se Data Lo and fir Use split karo array ke form base on / and return rightMost (last) Value of Array;
             const token=location.pathname.split('/').at(-1);
             dispatch(resetPassword(password,confirmPassword,token,navigate));
-      }
+    }
+
 
   return (
     <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center bg-richblack-900 px-4">

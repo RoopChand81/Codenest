@@ -65,7 +65,7 @@ exports.capturePayment = async (req, res) => {
     };
 
     try {
-      //creating the order of paymetn;
+      //creating the order of payment;
       const paymentResponse = await instance.orders.create(options);
       // if Razorpay fails silently or returns undefined
       if (!paymentResponse || !paymentResponse.id) {
@@ -75,7 +75,7 @@ exports.capturePayment = async (req, res) => {
         });
       }
 
-      console.log("payment", paymentResponse);
+      // console.log("payment", paymentResponse);
       //order created return order id and amount and currency
       return res.status(200).json({
         success: true,

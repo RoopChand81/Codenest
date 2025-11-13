@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { updateDisplayPicture } from "../../../../services/operations/SettingAPI"
 import IconBtn from "../../../common/IconBtn"
+import toast from "react-hot-toast"
 
 export default function ChangeProfilePicture() {
   const { token } = useSelector((state) => state.auth)
@@ -23,13 +24,12 @@ export default function ChangeProfilePicture() {
     const file = e.target.files[0]
     if (file) {
       setImageFile(file)
-    
     }
   }
 
   const handleFileUpload = () => {
     try {
-      console.log("uploading...")
+      //console.log("uploading...")
       setLoading(true)
       const formData = new FormData()
       formData.append("displayPicture", imageFile)
@@ -38,7 +38,8 @@ export default function ChangeProfilePicture() {
         setLoading(false)
       })
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+     //console.log("ERROR MESSAGE - ", error.message)
+      toast.error("Profile Picture not Updated");
     }
   }
 

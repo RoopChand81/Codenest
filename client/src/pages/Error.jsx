@@ -9,6 +9,7 @@ export default function ErrorPage() {
         alt="404 Anime Girl"
         className="w-72 md:w-96 drop-shadow-xl mb-6 rounded-lg"
       />
+      
 
       {/* Heading */}
       <h1 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-yellow-400 to-purple-500 mb-4 animate-pulse">

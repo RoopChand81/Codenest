@@ -13,10 +13,10 @@ export default function DeleteAccount() {
     try {
       dispatch(deleteProfile(token, navigate))
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      //console.log("ERROR MESSAGE - ", error.message)
+      toast.error("Server down Account not Deleted!");
     }
   }
-
   return (
     <>
       <div className="my-10 flex flex-row gap-x-5 rounded-md border-[1px] border-pink-700 bg-pink-900 p-8 px-12">

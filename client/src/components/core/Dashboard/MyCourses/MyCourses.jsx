@@ -18,11 +18,9 @@ export default function MyCourses() {
       const result = await fetchInstructorCourses(token)
       if (result) {
         setCourses(result)
-        
       }
     }
     fetchCourses()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

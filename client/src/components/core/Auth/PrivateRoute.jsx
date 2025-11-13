@@ -1,5 +1,6 @@
 // src/components/PrivateRoute.jsx
-import React from 'react'
+import React, { useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
@@ -9,7 +10,6 @@ const PrivateRoute = ({ children }) => {
   if (!token) {
     return <Navigate to="/login" replace />
   }
-
   return children
 }
 

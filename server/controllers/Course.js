@@ -23,7 +23,7 @@ exports.createCourse = async (req, res) => {
       } = req.body;
 
       const thumbnail = req.files?.thumbnailImage;
-      console.log(status);
+      //console.log(status);
 
       // Validate required fields
       if (
@@ -35,13 +35,6 @@ exports.createCourse = async (req, res) => {
             !thumbnail ||
             !tag
       ) {
-            console.log(courseName);
-            console.log(courseDescription);
-            console.log(whatYouWillLearn);
-            console.log(price);
-            console.log(category);
-            console.log(thumbnail);
-            console.log(tag);
             return res.status(400).json({
             message: "Please fill all fields",
             success: false,
@@ -53,8 +46,8 @@ exports.createCourse = async (req, res) => {
       const instructorDetails = await User.findById(userId);
       if (!instructorDetails) {
             return res.status(400).json({
-            message: "You are not an instructor",
-            success: false,
+              message: "You are not an instructor",
+              success: false,
             });
       }
 
@@ -347,6 +340,69 @@ exports.getFullCourseDetails = async (req, res) => {
   }
 };
 
+
+
+exports.getFullCourseDetailsForInstructor = async (req, res) => {
+  try {
+    const courseId = req.query.courseId;
+
+    const userId = req.user.id;
+
+    const course = await Course.findById({
+      _id: courseId,
+    })
+      .select(
+        "_id courseName courseDescription whatYouWillLearn price thumbnail category courseContent tag instruction"
+      ) // only required fields
+      .populate("category", "name") // only category name
+      .populate({
+        path: "courseContent",
+        select: "sectionName SubSection", // only section name and subsections
+        populate: {
+          path: "SubSection",
+          select: "title", // only subsection name (title)
+        },
+      })
+      .lean(); // convert mongoose object to plain JS object
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: `Course not found with id: ${courseId}`,
+      });
+    }
+    // Prepare simplified response
+    // Prepare simplified course response
+    const simplifiedCourse = {
+      _id:course._id,
+      courseName: course.courseName,
+      courseDescription: course.courseDescription,
+      whatYouWillLearn: course.whatYouWillLearn || "",
+      price: course.price || 0,
+      thumbnail: course.thumbnail || "",
+      category: course.category?.name || "No Category",
+      tag: course.tag || [],
+      instruction: course.instruction || [],
+      courseContent:
+        course.courseContent?.map((section) => ({
+          sectionName: section.sectionName,
+          SubSection: section.SubSection?.map((sub) => sub.title) || [],
+        })) || [],
+    };
+
+    return res.status(200).json({
+      success: true,
+      data: simplifiedCourse,
+    });
+  }catch (error) {
+    console.error("Error fetching simple course details:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // Get a list of Course for a given Instructor
 exports.getInstructorCourses = async (req, res) => {
   try {
@@ -373,58 +429,70 @@ exports.getInstructorCourses = async (req, res) => {
   }
 };
 // Delete the Course
+
+
 exports.deleteCourse = async (req, res) => {
   try {
-    const { courseId } = req.body;
+    let { courseId } = req.body;
 
-    // Find the course
-    const course = await Course.findById(courseId);
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
+    console.log("courseId type:", typeof courseId);
+
+    // ✅ Convert to ObjectId if it’s a string
+    if (typeof courseId === "string") {
+      if (!mongoose.Types.ObjectId.isValid(courseId)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid courseId format",
+        });
+      }
+      courseId = new mongoose.Types.ObjectId(courseId);
     }
 
-    // Unenroll students from the course
-    const studentsEnrolled = course.studentsEnrolled;
+    // ✅ Find the course by ID
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Course not found" });
+    }
+
+    // ✅ Unenroll students
+    const studentsEnrolled = course.studentsEnrolled || [];
     for (const studentId of studentsEnrolled) {
       await User.findByIdAndUpdate(studentId, {
-        $pull: { courses: courseId },
+        $pull: { courses: course._id },
       });
     }
 
-    // Delete sections and sub-sections
-    const courseSections = course.courseContent;
+    // ✅ Delete sections and sub-sections
+    const courseSections = course.courseContent || [];
     for (const sectionId of courseSections) {
-      // Delete sub-sections of the section
       const section = await Section.findById(sectionId);
       if (section) {
-        const SubSections = section.SubSection;
-        for (const subSectionId of SubSections) {
+        for (const subSectionId of section.SubSection || []) {
           await SubSection.findByIdAndDelete(subSectionId);
         }
       }
-
-      // Delete the section
       await Section.findByIdAndDelete(sectionId);
-
     }
 
-    //Delete the Course from Teacher Account
-    const instructorId=await findById(course.instructor);
+    // ✅ Remove from instructor
+    const instructorId = course.instructor;
+    if (instructorId) {
+      await User.findByIdAndUpdate(instructorId, {
+        $pull: { courses: course._id },
+      });
+    }
 
-    await User.findByIdAndUpdate(
-      {_id:instructorId},
-      {$pull: {courses:courseId}}
-    )
-
-    // Delete the course
-    await Course.findByIdAndDelete(courseId);
+    // ✅ Delete the course itself
+    await Course.findByIdAndDelete(course._id);
 
     return res.status(200).json({
       success: true,
       message: "Course deleted successfully",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Delete course error:", error);
     return res.status(500).json({
       success: false,
       message: "Server error",
@@ -432,6 +500,7 @@ exports.deleteCourse = async (req, res) => {
     });
   }
 };
+
 
 
 

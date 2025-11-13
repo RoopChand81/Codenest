@@ -4,6 +4,7 @@ import EditProfile from "./EditProfile"
 import UpdatePassword from "./UpdatePassword"
 
 const Index=()=> {
+  
   return (
     <div className='w-11/12 flex  flex-col py-10'>
       <div className='py-10'>

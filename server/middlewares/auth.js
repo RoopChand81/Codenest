@@ -22,7 +22,7 @@ exports.auth =async(req,res,next)=>{
             //verify the token 
             try{
                   const decoded =  jwt.verify(token,process.env.JWT_SECRET);
-                  console.log("Decode Data:" ,decoded);
+
                   req.user = decoded;//add in user
             }catch(error){
                   console.log("this is error :", error);

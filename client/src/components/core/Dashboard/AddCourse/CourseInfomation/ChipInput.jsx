@@ -16,9 +16,10 @@ const ChipInput = ({name, label, register, errors, setValue}) => {
             // validate: (value) => value.length > 0
    
         });
+        //edit mode on 
         if(editCourse ) {
-            settags(course?.tag);
-            setValue(name, course?.tag);
+            settags(course?.tag);//load previous tag already stores.
+            setValue(name, course?.tag);//Prefil in form these tag;
         }
     },[])
 
@@ -30,6 +31,7 @@ const ChipInput = ({name, label, register, errors, setValue}) => {
                 tags.map((tag, index) => (
                     <div key={index} className='m-1 flex items-center rounded-full bg-yellow-400 px-2 py-1 text-sm text-richblack-5'>
                         <span className='text-richblack-5'>{tag}</span>
+                        {/* this print all tag */}
                         <button
                         type='button'
                         onClick={() => {
@@ -41,33 +43,34 @@ const ChipInput = ({name, label, register, errors, setValue}) => {
                         className='ml-2 text-richblack-5'>
                             <FaTimes/>
                         </button>
-                        </div>
+                    </div>
                 ))
             }
-    </div>
-    <input
-        type='text'
-        id={name}
-        placeholder='Press Enter or , to add a tag'
-        style={{
-            boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
-      }}
-      className="w-full rounded-[0.5rem] bg-richblack-700 p-[12px] text-richblack-5"
-        onKeyDown={(e) => {
-            if(e.key === 'Enter' || e.key === ',') {
-                e.preventDefault();
-                if(e.target.value) {
-                    settags([...tags, e.target.value]);
-                    setValue(name, [...tags, e.target.value]);
-                    e.target.value = "";
-                }
-            }
-        }}
-    />
-    {
-        errors[name] && <span className='text-xs text-pink-200'>Tags are required</span>
-        
-    }
+        </div>
+        {/* take tag input */}
+        <input
+            type='text'
+            id={name}
+            placeholder='Press Enter or , to add a tag'
+            style={{
+                boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
+            }}
+            className="w-full rounded-[0.5rem] bg-richblack-700 p-[12px] text-richblack-5"
+                onKeyDown={(e) => {
+                    if(e.key === 'Enter' || e.key === ',') {
+                        e.preventDefault();
+                        if(e.target.value) {
+                            settags([...tags, e.target.value]);//add new tag
+                            setValue(name, [...tags, e.target.value]);//set in form tag
+                            e.target.value = "";
+                        }
+                    }
+            }}
+        />
+        {
+            errors[name] && <span className='text-xs text-pink-200'>Tags are required</span>
+            
+        }
 
     </div>
   )

@@ -11,7 +11,6 @@ import ContectFormSection from '../components/core/AboutPage/ContectFormSection'
 import Footer from '../components/common/Footer';
 import ReviewSlider from "../components/common/ReviewSlider";
 
-
 const About = () => {
   return (
     <div>

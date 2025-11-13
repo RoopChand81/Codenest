@@ -17,13 +17,9 @@ const NestedView = ({handelChangeEditSectionName}) => {
     const [viewSubSection, setviewSubSection] = useState(null);
     const [addSubSection, setAddSubSection] = useState(null);
     const [editSubsection, setEditSubsection] = useState(null);
-    
-
     const [confirmationModal, setConfirmationModal] = useState(null);
 
-
-
-
+    //console.log("course",course);
 
     const handeldeleteSection = async (sectionId) => {
         const result = await deleteSection({sectionId,courseId:course._id},token);
@@ -32,7 +28,6 @@ const NestedView = ({handelChangeEditSectionName}) => {
             setConfirmationModal(null);
         }
     }
-
     const handeldeleteSubSection = async (subSectionId,sectionId) => {
         const result = await deleteSubSection({subSectionId,courseId:course._id,sectionId},token);
         if(result){
@@ -40,7 +35,7 @@ const NestedView = ({handelChangeEditSectionName}) => {
             setConfirmationModal(null);
         }
     }
-    console.log("NestedView courseContent",course.courseContent);
+    //console.log("NestedView courseContent",course.courseContent);
 
     const handelChangeEditSubSectionName = (subSectionId,subSection) => {
     }
@@ -49,8 +44,7 @@ const NestedView = ({handelChangeEditSectionName}) => {
     <div>
         <div>
             {
-                
-                course.courseContent.map((section) => (
+                course.courseContent.length>0 && course.courseContent.map((section,index) => (
                     <details key={section._id} className='mt-4'>
                         <summary className='flex cursor-pointer items-center justify-between border-b-2 border-b-richblack-600 py-2'>
                             <div className='flex items-center gap-x-3'>
@@ -82,6 +76,7 @@ const NestedView = ({handelChangeEditSectionName}) => {
 
                         <div className='px-6 pb-4'>
                             {
+                                
                                 section.SubSection.length>0 && section.SubSection.map((subSection) => (
                                     <div onClick={(e) => {if(e.currentTarget != e.target ) return;setviewSubSection(subSection);}} key={subSection._id} className='flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2 z-0'>
                                         <div className='flex items-center gap-x-3'>

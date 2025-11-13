@@ -26,6 +26,7 @@ const {
   LECTURE_COMPLETION_API,
   ADD_COURSE_TO_CATEGORY_API,
   SEARCH_COURSES_API,
+  GET_FULL_COURSE_DETAILS_AUTHENTICATED_For_INSTRUCTOR
 } = courseEndpoints;
 
 export const getAllCourses = async () => {
@@ -38,7 +39,7 @@ export const getAllCourses = async () => {
     }
     result = response?.data?.data;
   } catch (error) {
-    console.log("GET_ALL_COURSE_API API ERROR............", error);
+    //console.log("GET_ALL_COURSE_API API ERROR............", error);
     toast.error(error.message);
   }
   toast.dismiss(toastId);
@@ -75,7 +76,7 @@ export const fetchCourseCategories = async () => {
   let result = [];
   try {
     const response = await apiConnector("GET", COURSE_CATEGORIES_API);
-    console.log("COURSE_CATEGORIES_API API RESPONSE............", response);
+    //console.log("COURSE_CATEGORIES_API API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Course Categories");
     }
@@ -289,14 +290,14 @@ export const fetchInstructorCourses = async (token) => {
         Authorization: `Bearer ${token}`,
       }
     );
-    console.log("INSTRUCTOR COURSES API RESPONSE............", response);
+    //console.log("INSTRUCTOR COURSES API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Instructor Courses");
     }
     result = response?.data?.data;
     
   } catch (error) {
-    console.log("INSTRUCTOR COURSES API ERROR............", error);
+    //console.log("INSTRUCTOR COURSES API ERROR............", error);
     toast.error(error.message);
   }
   toast.dismiss(toastId);
@@ -327,7 +328,6 @@ export const getFullDetailsOfCourse = async (courseId, token, dispatch) => {
   const toastId = toast.loading("Loading...");
   //dispatch(setLoading(true));
   let result = null;
-
   try {
     const response = await apiConnector(
       "GET",
@@ -337,13 +337,12 @@ export const getFullDetailsOfCourse = async (courseId, token, dispatch) => {
       }
     );
 
-    console.log("viwe Course in Operation:", response);
+    console.log("viwe Course in Operation:", response.data);
 
     if (!response.data.success) {
       throw new Error(response.data.message);
     }
-
-    result = response?.data?.data;
+    result = response.data?.data;
   } catch (error) {
     console.error("COURSE_FULL_DETAILS_API ERROR:", error);
     result = error?.response?.data;
@@ -354,6 +353,38 @@ export const getFullDetailsOfCourse = async (courseId, token, dispatch) => {
 
   return result;
 };
+
+
+export const getFullDetailsOfCourseForInstructor = async (courseId, token, dispatch) => {
+  const toastId = toast.loading("Loading...");
+  //dispatch(setLoading(true));
+  let result = null;
+  try {
+    const response = await apiConnector(
+      "GET",
+      `${GET_FULL_COURSE_DETAILS_AUTHENTICATED_For_INSTRUCTOR}?courseId=${courseId}`,null,
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
+
+    console.log("viwe Course in Operation:", response.data);
+
+    if (!response.data.success) {
+      throw new Error(response.data.message);
+    }
+    result = response?.data;
+  } catch (error) {
+    console.error("COURSE_FULL_DETAILS_API ERROR:", error);
+    result = error?.response?.data;
+  } finally {
+    toast.dismiss(toastId);
+    //dispatch(setLoading(false));
+  }
+
+  return result;
+};
+
 
 
 // mark a lecture as complete
@@ -463,9 +494,11 @@ export const createCategory = async (data, token) => {
   const toastId = toast.loading("Loading...");
   let success = false;
   try {
-    const response = await apiConnector("POST", CREATE_CATEGORY_API, data, {
-      Authorization: `Bearer ${token}`,
-    });
+    const response = await apiConnector("POST", CREATE_CATEGORY_API, data, 
+      {
+        Authorization: `Bearer ${token}`,
+      }
+    );
     console.log("CREATE CATEGORY API RESPONSE............", response);
     if (!response?.data?.success) {
       throw new Error("Could Not Create Category");

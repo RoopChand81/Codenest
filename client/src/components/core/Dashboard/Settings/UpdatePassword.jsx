@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 import { changePassword } from "../../../../services/operations/SettingAPI"
 import IconBtn from "../../../common/IconBtn"
+import toast from "react-hot-toast"
 
 export default function UpdatePassword() {
   const { token } = useSelector((state) => state.auth)
@@ -26,11 +27,13 @@ export default function UpdatePassword() {
     const {oldPassword,newPassword,confirmPassword}=data;
     try {    
       dispatch(changePassword(token, oldPassword,newPassword,confirmPassword)).then(() => {
-              console.log("Password udate ")
+              //console.log("Password udate ")
+          toast.success("Password updated Successful");
       })
       
     } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+      //console.log("ERROR MESSAGE - ", error.message)
+      toast.error("Error in pasword Updation");
     }
     reset();
   }

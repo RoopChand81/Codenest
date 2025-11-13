@@ -18,9 +18,10 @@ root.render(
   <React.StrictMode>
     {/* provider use for redux toolkit */}
     <Provider store={store}>  
-
+      {/* //wrap the app in browserrouter for routing; */}
       <BrowserRouter>
         <App />
+        {/* Toaster add for toast notification */}
         <Toaster/>
       </BrowserRouter>
 

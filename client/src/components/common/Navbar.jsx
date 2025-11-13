@@ -30,7 +30,7 @@ function Navbar() {
         setSubLinks(result.data.data)
         setLoading(false)
       } catch (error) {
-        console.log("Could not fetch Categories.", error)
+        //console.log("Could not fetch Categories.", error)
         setLoading(false)
       }
     })()
@@ -117,7 +117,7 @@ function Navbar() {
 
         {/* Right Section */}
         <div className="hidden items-center gap-x-4 md:flex">
-          {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+          {user && user?.accountType === ACCOUNT_TYPE.STUDENT && (
             <Link to="/dashboard/cart" className="relative">
               <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
               {totalItems > 0 && (

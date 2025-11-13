@@ -1,6 +1,6 @@
 const cloudinary=require("cloudinary").v2
 
-
+//conect the server to couldinary
 exports.cloudinaryConnect = () => {
 	try {
 		cloudinary.config({
@@ -11,6 +11,7 @@ exports.cloudinaryConnect = () => {
 		console.log('Cloudinary connected successfully')
 	} catch (error) {
 		console.log(error);
+		
 	}
 };
 

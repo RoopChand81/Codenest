@@ -9,6 +9,7 @@ import "../../App.css"
 import { apiConnector } from "../../services/apiconnector"
 import { ratingsEndpoints } from "../../services/apis"
 import RatingStars from './RatingStars'
+import toast from "react-hot-toast"
 
 function ReviewSlider() {
   const [reviews, setReviews] = useState([])
@@ -20,6 +21,7 @@ function ReviewSlider() {
         const { data } = await apiConnector("GET", ratingsEndpoints.REVIEWS_DETAILS_API)
         if (data?.success) setReviews(data?.data)
       } catch (err) {
+        toast.error("Server Down to show Review and Rating")
         console.error("Error fetching reviews:", err)
       }
     })()

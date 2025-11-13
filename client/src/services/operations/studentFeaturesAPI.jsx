@@ -32,6 +32,8 @@ export const buyCourse= async (token, courses, userDetails, navigate, dispatch)=
     let result=null;
     try{
         //load the script
+        //Only loaded when user initiates payment
+        //Instead of always loading in index.html
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
 
         if(!res) {
@@ -50,8 +52,8 @@ export const buyCourse= async (token, courses, userDetails, navigate, dispatch)=
         if(!orderResponse.data.success) {
             throw new Error(orderResponse.data.message);
         }
-        console.log("PRINTING orderResponse", orderResponse);
-        console.log("toatal courses:",courses);
+        // console.log("PRINTING orderResponse", orderResponse);
+        // console.log("toatal courses:",courses);
 
         //create payment option detailed
         const options = {
@@ -81,15 +83,17 @@ export const buyCourse= async (token, courses, userDetails, navigate, dispatch)=
         //open payment window 
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
+
+        //payment failed
         paymentObject.on("payment.failed", function(response) {
             toast.error("oops, payment failed");
-            console.log(response.error);
+            //console.log(response.error);
         })
         result=orderResponse;
 
     }
     catch(error) {
-        console.log("PAYMENT API ERROR.....", error);
+       // console.log("PAYMENT API ERROR.....", error);
         toast.error("Could not make Payment");
     }
     toast.dismiss(toastId);
@@ -108,7 +112,8 @@ async function sendPaymentSuccessEmail(response, amount, token) {
         })
     }
     catch(error) {
-        console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
+        //console.log("PAYMENT SUCCESS EMAIL ERROR....", error);
+        toast.error("Failed payment suceess Email");
     }
 }
 
@@ -128,7 +133,7 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
         navigate("/dashboard/enrolled-courses");
     }   
     catch(error) {
-        console.log("PAYMENT VERIFY ERROR....", error);
+        //console.log("PAYMENT VERIFY ERROR....", error);
         toast.error("Could not verify Payment");
     }
     toast.dismiss(toastId);

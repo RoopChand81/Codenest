@@ -37,6 +37,9 @@ app.use(
   })
 );
 
+//this is middelware that allow the file Data and store temprary in tmp folder 
+// so cloudinary take the path from and upoald it ;
+
 app.use(
       fileUpload({
             useTempFiles: true,

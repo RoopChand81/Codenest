@@ -1,11 +1,11 @@
+// CourseSlider component to display a slider of course cards using Swiper library
+// It accepts a list of courses as props and renders them in a responsive slider format
 import React from 'react'
-
 import {Swiper, SwiperSlide} from "swiper/react"
 import "swiper/css"
 import "swiper/css/free-mode"
 import "swiper/css/pagination"
 import {FreeMode,Pagination}  from 'swiper/modules'
-
 import Course_Card from './Course_Card'
 
 const CourseSlider = ({Courses}) => {
@@ -34,6 +34,7 @@ const CourseSlider = ({Courses}) => {
               <Course_Card course={course} Height={"h-[250px]"} />
             </SwiperSlide>
           ))}
+          
         </Swiper>
       ) : (
         <p className="text-xl text-richblack-5">No Course Found</p>

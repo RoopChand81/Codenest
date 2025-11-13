@@ -38,14 +38,16 @@ const CourseDetails = () => {
         if(token){
             try {
                 const verifyResponse = await buyCourse(token, [courseId], user, navigate, dispatch);
-                console.log("Final Verified Payment Response:", verifyResponse);
+                //console.log("Final Verified Payment Response:", verifyResponse);
                 // safe to call after verification
             } catch (err) {
-                console.error("Payment failed or verification failed", err);
+                toast.error(`Payment failed or verification failed ${err.message}`);
+                //console.error("Payment failed or verification failed", err);
             }
 
         }
         else{
+            //not login then show modal
           setConformationModal({
             text1:"You are not Logged in",
             text2:"Please login to purchase the course",
@@ -57,49 +59,29 @@ const CourseDetails = () => {
           })
         }
     }
-    //Accourding Course id access the course;
-    useEffect(() => {
-        const getCourseDetails = async() => {
-            const response = await fetchCourseDetails(courseId,dispatch);
-            console.log("getCourseDetails -> response", response.data);
-            setCourseDetail(response.data);
-        }
-        getCourseDetails();
-    }, [courseId]);
-
-    useEffect(() => {
-        
-        if(courseDetail?.ratingAndReviews?.length > 0){
-            console.log("course Ratings",courseDetail);
-             const count = GetAvgRating(courseDetail?.ratingAndReviews);
-            //console.log("Course Details",count);
-            setAvgReviewCount(count);
-        }
-    }, [courseDetail?.ratingAndReviews]);
-
 
     //add to cart
     const handelAddToCart = async () => {
         if (token) {
             try {
-                
                 const courseId=courseDetail._id;
                 const response = await addToCart(courseId, token,dispatch);
                
-                console.log("Response; ",response)
+                //console.log("Response; ",response)
                 if (response.data.success) {
                     // Update Redux slice with the new course
-                     console.log("Add a course in cart");
+                    // console.log("Add a course in cart");
                     dispatch(setCart(courseDetail));
                     toast.success("Course added to cart")
                 } else {
                     toast.error(response.message || "Failed to add course")
                 }
             } catch (error) {
-                console.error("Error adding course to cart:", error)
-                toast.error("Something went wrong")
+               // console.error("Error adding course to cart:", error)
+                toast.error("Course adding to cart failed!")
             }
         } else {
+            //not login then show modal
             setConformationModal({
                 text1: "You are not Logged in",
                 text2: "Please login to purchase the course",
@@ -111,15 +93,38 @@ const CourseDetails = () => {
         }
     }
 
+    //Accourding Course id access the course;
+    useEffect(() => {
+        const getCourseDetails = async() => {
+            const response = await fetchCourseDetails(courseId,dispatch);
+            //console.log("getCourseDetails -> response", response.data);
+            setCourseDetail(response.data);
+        }
+        getCourseDetails();
+    }, [courseId]);
+
+    //calculate average rating Not Any Backend Call
+    useEffect(() => {
+        if(courseDetail?.ratingAndReviews?.length > 0){
+            //calculate average rating
+             const count = GetAvgRating(courseDetail?.ratingAndReviews);
+            //set the average rating
+            setAvgReviewCount(count);
+        }
+    }, [courseDetail?.ratingAndReviews]);
+
+
+    
+
 
     useEffect (() => {
-    if(courseDetail){
-        const Enrolled = courseDetail?.studentsEnrolled?.find((student) => student === user?._id);
-        // console.log("CourseDetails -> Enrolled", Enrolled)
-        if(Enrolled){
-            setAlreadyEnrolled(true);
+        if(courseDetail){
+            const Enrolled = courseDetail?.studentsEnrolled?.find((student) => student === user?._id);
+            // console.log("CourseDetails -> Enrolled", Enrolled)
+            if(Enrolled){
+                setAlreadyEnrolled(true);
+            }
         }
-    }
     }, [courseDetail, user?._id])
 
 
@@ -207,8 +212,9 @@ const CourseDetails = () => {
                                 </>
                                 }
                             </div>
+
                             <div className='pb-3 pt-6 text-center text-sm text-richblack-25'>
-                                <p>30-Day Money-Back Guarantee</p>
+                                <p>3-Day Money-Back Guarantee</p>
                             </div>
                             <div className=''>
                                 <p className='my-2 text-xl font-semibold '>This course includes</p>
@@ -267,7 +273,7 @@ const CourseDetails = () => {
                         <div className='py-4'>
                             {
                                 courseDetail?.courseContent?.map((item, index) => (
-                                    <details key={index} className=' border border-solid border-richblack-600 bg-richblack-700 text-richblack-5 detailanimatation'>
+                                    <details key={index}  className=' border border-solid border-richblack-600 bg-richblack-700 text-richblack-5 detailanimatation'>
                                         <summary className='flex cursor-pointer items-start justify-between bg-opacity-20 px-7  py-5 transition-[0.3s]'>
                                             <div className='flex items-center gap-2'>
                                             <FaChevronDown className='arrow '/>
@@ -279,7 +285,8 @@ const CourseDetails = () => {
                                         </summary>
                                         <div className='mt-5'>
                                             {
-                                                item?.subSection?.map((subItem, subIndex) => (
+                                                item?.SubSection?.map((subItem, subIndex) => (
+                                                    console.log("subItem",subItem),
                                                     <div key={subIndex} className='relative overflow-hidden bg-richblack-900  p-5 border border-solid border-richblack-600'>
                                                         <div className='flex items-center gap-2'>
                                                         <IoVideocamOutline className='txt-lg text-richblack-5'/>
@@ -289,7 +296,7 @@ const CourseDetails = () => {
                                                     
                                                 ))
                                             }
-                                            </div>
+                                        </div>
                                     </details>
                                 ))
                             }

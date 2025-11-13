@@ -63,6 +63,7 @@ function SignupForm() {
     // Send OTP to user for verification Call Backend Function;
     dispatch(sendOtp(formData.email, navigate,name));
 
+    
     // Reset form Data  which make clear every input fields
     setFormData({
       firstName: "",

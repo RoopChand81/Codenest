@@ -166,14 +166,13 @@ Utilized several React hooks for efficient state management and dynamic behavior
 
 - 🚀 **Lazy Loading**: Enhance performance by lazily loading images using the react-lazy-load-image library.
 - 📊 **Chart.js:**  Versatile charting library for creating interactive and visually appealing charts.
-- 🎭**Framer Motion:**  Animation library for React, providing smooth and expressive motion.
 - 📁 **React Dropzone:**  Drag-and-drop file uploader for React applications.
 - 🍞 **React Hot Toast:**  Elegant and customizable toast notifications for React applications.
 - 🔢 **React OTP Input:**  Input component for one-time password entry in React forms.
 - 📊 **React Super Responsive Table:**  Highly responsive and feature-rich table component for React.
 - 🔄 **Swiper:**  Modern touch slider for mobile and desktop browsers.
 - 🖋️ **React Type Animation:**  Simple and configurable typing animation component for React.
-- 🎥 **Video React:**  React-based video player for building rich multimedia experiences in web applications.
+
 
 
 

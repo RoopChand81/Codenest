@@ -171,6 +171,7 @@ function SidebarContent({
               </span>
             </div>
 
+            
             {/* Sub-Sections */}
             {activeStatus === section?._id && (
               <div className="transition-[height] duration-500 ease-in-out">

@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast"
 import { apiConnector } from "../apiconnector"
 import { cartEndpoints } from "../apis"
-import {resetCart,removeFromCart} from "../../slices/cartSlice"
+import {resetCart,removeFromCart,setCart} from "../../slices/cartSlice"
 
 const {
   ADD_TO_CART_API,
@@ -21,7 +21,7 @@ export const addToCart= async (courseId, token,dispatch)=> {
           Authorization: `Bearer ${token}`,
         }
       )
-      console.log("ADD TO CART RESPONSE............", response)
+      //console.log("ADD TO CART RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -29,7 +29,7 @@ export const addToCart= async (courseId, token,dispatch)=> {
 
       result=response;
     } catch (error) {
-      console.log("ADD TO CART ERROR............", error)
+      //console.log("ADD TO CART ERROR............", error)
       toast.error("Failed to add this course")
     }
     toast.dismiss(toastId);
@@ -51,7 +51,7 @@ export const removeCart=async (courseId, token,dispatch)=> {
         }
       )
 
-      console.log("REMOVE FROM CART RESPONSE............", response)
+     // console.log("REMOVE FROM CART RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
@@ -59,7 +59,7 @@ export const removeCart=async (courseId, token,dispatch)=> {
       dispatch(removeFromCart(courseId))
       result=response;
     } catch (error) {
-      console.log("REMOVE FROM CART ERROR............", error)
+      //console.log("REMOVE FROM CART ERROR............", error)
       toast.error("Failed to remove course")
     }
     return result;
@@ -76,15 +76,15 @@ export const clearCart=async(token,dispatch)=> {
           Authorization: `Bearer ${token}`,
         }
       )
-      console.log("CLEAR CART RESPONSE............", response)
+      //console.log("CLEAR CART RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
-      dispatch( resetCart()) // ✅ empty the cart in Redux
+      dispatch( resetCart()) //empty the cart in Redux
       return response;
     } catch (error) {
-      console.log("CLEAR CART ERROR............", error)
+      //console.log("CLEAR CART ERROR............", error)
       toast.error("Failed to clear cart")
     }
     
@@ -106,14 +106,14 @@ export function getUserCart(token) {
         }
       )
 
-      console.log("GET USER CART RESPONSE............", response)
+      //console.log("GET USER CART RESPONSE............", response)
 
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
 
       toast.success("Cart fetched")
-      dispatch(setCart(response.data.courses)) // ✅ store courses in Redux slice
+      dispatch(setCart(response.data.courses)) //store courses in Redux slice
       return response.data.courses
     } catch (error) {
       console.log("GET USER CART ERROR............", error)

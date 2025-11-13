@@ -26,22 +26,22 @@ const CourseBuilderForm = () => {
 
   //goNext buttton handle
   const gonext = () => {
-  if (course.courseContent.length > 0) {
-    const allSectionsHaveLessons = course.courseContent.every(
-      (section) => section.SubSection && section.SubSection.length > 0
-    );
+    if (course.courseContent.length > 0) {
+      //check section check present a subsection or not
+      const allSectionsHaveLessons = course.courseContent.every(
+        (section) => section.SubSection && section.SubSection.length > 0
+      );
 
-    if (allSectionsHaveLessons) {
-      dispatch(setStep(3));
+      if (allSectionsHaveLessons) {
+        dispatch(setStep(3));
+      } else {
+        toast.error("Please add at least one lesson to each section.");
+      }
+
     } else {
-      toast.error("Please add at least one lesson to each section.");
+      toast.error("Please add at least one section to continue.");
     }
-  } else {
-    toast.error("Please add at least one section to continue.");
-  }
-};
-
-
+  };
 
   //form Data Handle
   const {
@@ -55,7 +55,8 @@ const CourseBuilderForm = () => {
   const onSubmit = async (data) => {
     let result=null;
     setLoading(true);
-    console.log("courseId when update the course ",course._id);
+    //console.log("courseId when update the course ",course._id);
+    //when edit section Clicked then setEdit true;
     if (editSectionName) {
       result = await updateSection(
         {
@@ -65,7 +66,8 @@ const CourseBuilderForm = () => {
         },
         token
       );
-    } else {
+    } 
+    else {
       result = await createSection(
         {
           sectionName: data.sectionName,
@@ -77,7 +79,7 @@ const CourseBuilderForm = () => {
     }
     if (result) {
       dispatch(setCourse(result));
-      setValue("sectionName", "");
+      setValue("sectionName", "");//make field empty after create;
       setEditSectionName(false);
     }
     setLoading(false);
@@ -101,6 +103,7 @@ const CourseBuilderForm = () => {
         <label className="text-sm text-richblack-5" htmlFor="sectionName">
           Section Name<sup className="text-pink-200">*</sup>
         </label>
+
         <input
           id="sectionName"
           placeholder="Add a section to build your course"
@@ -114,7 +117,9 @@ const CourseBuilderForm = () => {
         {errors.sectionName && (
           <p className="ml-2 text-xs tracking-wide text-pink-200">This field is required</p>
         )}
+
         <div className="flex items-end gap-x-4">
+          {/* this is create the section button */}
           <button
             type="submit"
             className="flex items-center border border-yellow-50 bg-transparent cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 undefined"
@@ -124,6 +129,8 @@ const CourseBuilderForm = () => {
             </span>
             <AiOutlinePlusCircle size={20} className="text-yellow-50" />
           </button>
+
+          {/* this button show when the edit clicked  in section */}
           {editSectionName && (
             <button
               onClick={() => {
@@ -141,7 +148,7 @@ const CourseBuilderForm = () => {
 
       {course.courseContent.length > 0 && <NestedView handelChangeEditSectionName={handelChangeEditSectionName} />}
       
-      {/* Handle Back Button for step2 */}
+      {/* Handle Back Button from step 2 */}
       <div className="flex justify-end gap-x-3">
         <button
           onClick={() => {
@@ -152,7 +159,7 @@ const CourseBuilderForm = () => {
         >
           Back
         </button>
-
+        {/* button for go step 3 */}
         <button
           onClick={gonext}
           className="flex items-center bg-yellow-50 cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900 undefined"

@@ -35,11 +35,12 @@ exports.sendOTP=async(req,res)=>
             let otp=generateOTP();
             //send OTP to user email
             const template = otpTemplate(otp, name);
-            await mailSender(email,'OTP Verification Email from CodeNest',template);
+            const  response= await mailSender(email,'OTP Verification Email from CodeNest',template);
 
-
+            if(!response.success){
+                  throw new Error("Failed to send OTP email");
+            }
            
-
             //make enrty in DB with unique otp
             const otpPayload={email,otp};
             const otpBody=await OTP.create(otpPayload);//called OTP pre function and save otp in DB
@@ -122,7 +123,7 @@ exports.signUp=async (req,res)=>{
             }
             if(otp!==recentOTP[0].otp){
                   //enter otp and fetch recentotp  not match 
-                  console.log(`questOTP: ${otp} \n DBOTP :${recentOTP}`);
+                  //console.log(`questOTP: ${otp} \n DBOTP :${recentOTP}`);
                   return res.status(400).json({
                         success:false,
                         message:"Invalid OTP",
@@ -158,7 +159,7 @@ exports.signUp=async (req,res)=>{
       }catch(error){
             return res.status(500).json({
                   success:false,
-                  message:"Account Not create Try Again !!",
+                  message:"Server down Try Again !!",
             });
       }
 }
@@ -179,7 +180,10 @@ exports.login=async (req,res)=>{
               "additionalDetails"
             ).exec();
 
+           
+
             if(!user){
+            
                   return res.status(401).json({
                         success:false,
                         message:"User are not registered with us"
@@ -191,7 +195,7 @@ exports.login=async (req,res)=>{
             if(!match){
                   return res.status(405).json({
                         success:false,
-                        message:"Invalid Password (Password Not Match)"
+                        message:"Invalid Password or Email"
                   });
             }
             
@@ -203,7 +207,7 @@ exports.login=async (req,res)=>{
             }
             //genrate token using jwt
             const token = jwt.sign(payload,process.env.JWT_SECRET,{
-                  expiresIn:"7d"
+                  expiresIn:"3d"
             });
 
             user=user.toObject();
@@ -226,7 +230,7 @@ exports.login=async (req,res)=>{
       }catch(error){
             return res.status(500).json({
                   success:false,
-                  message:"Login Failure,please try again",
+                  message:"Login Fail ,please try again",
                   
             });
       }

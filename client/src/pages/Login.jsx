@@ -3,6 +3,7 @@ import loginImg from "../assets/Images/login2.webp"
 import Template from "../components/core/Auth/Template"
 
 const Login=()=> {
+  
   return (
      <Template
       title="Welcome Back"

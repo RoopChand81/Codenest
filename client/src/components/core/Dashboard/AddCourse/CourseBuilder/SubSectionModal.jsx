@@ -10,8 +10,6 @@ import { RxCross1 } from 'react-icons/rx';
 import Upload from './Upload'
 import IconBtn from '../../../../common/IconBtn';
 import { useState } from 'react';
-
-
 const SubSectionModal = ({
     modalData,
     setModalData,
@@ -99,7 +97,6 @@ const SubSectionModal = ({
         const result = await createSubSection(formData, token);
         console.log("result", result);
         if (result) {
-
             dispatch(setCourse(result));
         }
         setModalData(null);

@@ -38,11 +38,15 @@ exports.resetPassowrdToken=async(req,res)=>{
             const name=user.firstName+" "+user.lastName;
             const resetLink = `https://codenest-edtech.netlify.app/update-password/${token}`;
             const emailBody = resetPasswordTemplate(name, resetLink);//html Reset password template
-            await mailSender(
+             const response= await mailSender(
               email,
               "Reset Your Password",
               emailBody
             );
+            
+            if(!response.success){
+                  throw new Error("Failed to send reset password email");
+            }
 
             return res.status(200).json({
                   success:true,

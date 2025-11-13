@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 
 
 const RequirementField = ({name, label, register, errors, setValue, getValues}) => {
-    const [requirement, setRequirement] = useState("");
+    const [requirement, setRequirement] = useState("");//it store enter field value;
     const [requirementList, setRequirementList] = useState([]);
     const {editCourse, course} = useSelector((state) => state.course);
-    console.log("editCourse",typeof(requirementList));
+    //console.log("editCourse",typeof(requirementList));
 
 
 
@@ -40,7 +40,7 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
     //Delete the rquirement when press clear
     const handleRemoveRequirement = (index) => {
         const updatedRequirementList = [...requirementList];
-        updatedRequirementList.splice(index, 1);
+        updatedRequirementList.splice(index, 1);//index decied starting point and 1 decied how many element delete
         setRequirementList(updatedRequirementList);
     }
 
@@ -59,7 +59,7 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
               }}
               className="w-full rounded-[0.5rem] bg-richblack-700 p-[12px] text-richblack-5"
             />
-
+ 
             <button
             type='button'
             onClick={handleAddRequirement}
@@ -69,11 +69,11 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
 
         </div>
        {
-        console.log("requireList",requirementList)
+        //console.log("requireList",requirementList)
        }
         
 
-        {/* for remove from list */}
+        {/* for display the requirment the list */} 
         {
             requirementList.length > 0 && (
                 
