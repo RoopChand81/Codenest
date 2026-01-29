@@ -9,6 +9,8 @@ import {FreeMode,Pagination}  from 'swiper/modules'
 import Course_Card from './Course_Card'
 
 const CourseSlider = ({Courses}) => {
+  console.log("start");
+  
   return (
     <>
       {Courses?.length ? (
@@ -19,7 +21,7 @@ const CourseSlider = ({Courses}) => {
         // Pagination → adds dots under the slider for navigation.
           slidesPerView={1}
           spaceBetween={25}
-          loop={true}
+          loop={Courses.length>3}
           modules={[FreeMode, Pagination]}
           pagination={true}
           breakpoints={{

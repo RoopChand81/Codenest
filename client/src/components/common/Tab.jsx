@@ -1,4 +1,4 @@
-//this show the Tab (Student or iNstructor ) which rerender on Signup form Page;
+//this show the Tab (Student or instructor ) which rerender on Signup form Page;
 export default function Tab({ tabData, field, setField }) {
     return (
       <div

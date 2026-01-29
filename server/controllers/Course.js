@@ -266,9 +266,9 @@ exports.editCourse = async (req, res) => {
 exports.getFullCourseDetails = async (req, res) => {
   try {
     const  courseId  = req.query.courseId;
-    console.log("controler all Data",req.query.courseId);
+    //console.log("controler all Data",req.query.courseId);
     const userId = req.user.id;
-    console.log("courseId:-",courseId);
+   //console.log("courseId:-",courseId);
     //check the course present or Not
     const courseDetails = await Course.findOne({
       _id: courseId,
@@ -435,7 +435,7 @@ exports.deleteCourse = async (req, res) => {
   try {
     let { courseId } = req.body;
 
-    console.log("courseId type:", typeof courseId);
+    //console.log("courseId type:", typeof courseId);
 
     // ✅ Convert to ObjectId if it’s a string
     if (typeof courseId === "string") {

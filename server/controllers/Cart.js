@@ -5,7 +5,7 @@ const Course = require("../models/Course");
 exports.addCourseToCart = async (req, res) => {
   try {
     const { courseId } = req.body;
-    const { email, id } = req.user; // ✅ extracted from token
+    const { email, id } = req.user; 
 
     if (!courseId) {
       return res.status(400).json({

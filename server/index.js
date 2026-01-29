@@ -21,15 +21,23 @@ const cartRoutes=require('./routers/cart');
 const contactUsRoute=require('./routers/Contact');
 
 
-
 //midleware
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      if (req.originalUrl === "/api/v1/payment/webhook") {
+        req.rawBody = buf; // store raw buffer
+      }
+    },
+  }),
+);
+
 app.use(cookieParser());
 
 app.use(
   cors({
     origin: [
-      //"http://localhost:3000",
+      // "http://localhost:3000",
       "https://codenest-cz7r.vercel.app",
       "https://codenest-edtech.netlify.app",
     ], //jo requrest frentend se ayega use entertain karana hai

@@ -12,7 +12,6 @@ const {passwordUpdated}=require("../mail/templates/passwordUpdate");
 require('dotenv').config();
 
 
-
 //==============send -OTP for Email Verification And create Account===========
 exports.sendOTP=async(req,res)=>
 {
@@ -62,7 +61,6 @@ exports.sendOTP=async(req,res)=>
             });
      }     
 }
-
 //========SignUp=================
 exports.signUp=async (req,res)=>{
       
@@ -163,7 +161,6 @@ exports.signUp=async (req,res)=>{
             });
       }
 }
-
 //===============Login=================== 
 exports.login=async (req,res)=>{
       try{
@@ -198,7 +195,6 @@ exports.login=async (req,res)=>{
                         message:"Invalid Password or Email"
                   });
             }
-            
             
             const payload={
                   email:user.email,

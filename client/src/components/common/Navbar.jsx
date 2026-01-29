@@ -92,7 +92,7 @@ function Navbar() {
                               <p>{link.name}</p>
                             </Link>
                           ))
-                      ) : (
+                        ) : (
                         <p className="text-center">No Courses Found</p>
                       )}
                     </div>

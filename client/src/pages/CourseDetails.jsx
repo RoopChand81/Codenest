@@ -138,15 +138,17 @@ const CourseDetails = () => {
   return (
     <div>
         <div className='mx-auto box-content px-4 lg:w-[1260px] lg:relative '>
+            {/* small screen handle */}
             <div className='mx-auto grid min-h-[450px] max-w-maxContentTab justify-items-center py-8 lg:mx-0 lg:justify-items-start lg:py-0 xl:max-w-[810px]'>
                 <div className='relative block max-h-[30rem] lg:hidden'>
-                    <div className='absolute bottom-0 left-0 h-full w-full shadow-[#161D29_0px_-64px_36px_-28px_inset]'></div>
+                    <div className='absolute bottom-0 left-0 h-full w-full shadow-[#161D29_0px_-64px_36px_-28px_inset]'></div> 
                         <img src={courseDetail?.thumbnail} alt="course img" />
+                    
                 </div>
-                    <div className='z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg text-richblack-5'>  
-                            <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseDetail?.courseName}</p>
-                            <p className='text-richblack-200'>{courseDetail?.courseDescription}</p>
-                            <div className='flex gap-x-3 items-center'>
+                <div className='z-30 my-5 flex flex-col justify-center gap-4 py-5 text-lg text-richblack-5'>  
+                        <p className='text-4xl font-bold text-richblack-5 sm:text-[42px]'>{courseDetail?.courseName}</p>
+                        <p className='text-richblack-200'>{courseDetail?.courseDescription}</p>
+                    <div className='flex gap-x-3 items-center'>
                         <span className='text-yellow-50'>{avgReviewCount || 0}</span>
                         <RatingStars Review_Count={avgReviewCount} />
                         <span className=' md:block hidden md:text-xl text-richblack-5'>({courseDetail?.ratingAndReviews?.length} Reviews)</span>
@@ -168,26 +170,44 @@ const CourseDetails = () => {
                         <p className='flex items-center gap-2 text-richblack-50'><BsGlobe className='text-lg text-richblack-50'/>English</p>
                     </div>
                     </div>
-                    <div className='flex w-full flex-col gap-4 border-y border-y-richblack-500 py-4 lg:hidden'>
+
+                    <div className='flex w-full flex-col gap-4 border-y border-y-richblack-500 py-4 lg:hidden bg-richblack-700 rounded-lg p-4'>
                         <p className='space-x-3 pb-4 text-3xl font-semibold text-richblack-5'>
-                            <span>₹{courseDetail?.price}</span></p>
+                            <span>₹{courseDetail?.price}</span>
+                        </p>
                             {ACCOUNT_TYPE.INSTRUCTOR !==user?.accountType &&
-                            <>
-                            {
-                                alreadyEnrolled ? <button onClick={()=>{navigate("/dashboard/enrolled-courses")}}  className='yellowButton'>Go to Course</button> : <button onClick={handelPayment} className='yellowButton'>Buy Now</button>
+                                <div className=' flex flex-col gap-4 '>
+                                    {
+                                        alreadyEnrolled ? <button onClick={()=>{navigate("/dashboard/enrolled-courses")}}  className='text-richblack-800 bg-yellow-25 rounded-lg '>Go to Course</button> : <button onClick={handelPayment} className='text-richblack-800 bg-yellow-25 rounded-lg '>Buy Now</button>
+                                    }
+
+                                    {
+                                        alreadyEnrolled ? (<div></div>) : 
+                                        (
+                                            cart?.find((item) => item?._id === courseDetail?._id) ?
+                                            (<button onClick={()=>{navigate("/dashboard/cart")}} className='bg-richblack-800 rounded-lg text-richblack-5'>Go to Cart</button>) :
+                                            (<button onClick={handelAddToCart} className='bg-richblack-800 rounded-lg text-richblack-5'>Add to Cart</button>)
+                                        )
+                                    }
+                                </div>
                             }
-                            {
-                                alreadyEnrolled ? (<div></div>) : 
-                                (
-                                    cart?.find((item) => item?._id === courseDetail?._id) ?
-                                    (<button onClick={()=>{navigate("/dashboard/cart")}} className='blackButton text-richblack-5'>Go to Cart</button>) :
-                                    (<button onClick={handelAddToCart} className='blackButton text-richblack-5'>Add to Cart</button>)
-                                )
-                            }
-                            </>
-                            }
+                        <div className=''>
+                                <p className='my-2 text-xl font-semibold text-richblack-5 '>This course includes</p>
+                                <div className='flex flex-col gap-1 text-sm text-caribbeangreen-100'>
+                                    {
+                                        JSON.parse(courseDetail?.instruction).map((item,index) => (
+                                            <div key={index} className='flex gap-2 items-center'>
+                                                <span className='text-lg text-richblack-5'>✓</span>
+                                                <span>{item}</span>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                        </div>
+                        
                     </div>
                 </div>
+
                 <div className='mr-[1.5rem] right-[1rem] top-[60px] mx-auto hidden min-h-[600px] w-1/3 max-w-[410px] translate-y-24 md:translate-y-0 lg:absolute  lg:block'>
                     <div className='flex flex-col gap-4 rounded-md bg-richblack-700 p-4 text-richblack-5'>
                         <img src={courseDetail?.thumbnail} alt="course img" className='max-h-[300px] min-h-[180px] w-[400px] overflow-hidden rounded-2xl object-cover md:max-w-full' />
@@ -213,22 +233,23 @@ const CourseDetails = () => {
                                 }
                             </div>
 
-                            <div className='pb-3 pt-6 text-center text-sm text-richblack-25'>
+                            {/* <div className='pb-3 pt-6 text-center text-sm text-richblack-25'>
                                 <p>3-Day Money-Back Guarantee</p>
-                            </div>
+                            </div> */}
                             <div className=''>
                                 <p className='my-2 text-xl font-semibold '>This course includes</p>
                                 <div className='flex flex-col gap-1 text-sm text-caribbeangreen-100'>
                                     {
                                         JSON.parse(courseDetail?.instruction).map((item,index) => (
                                             <div key={index} className='flex gap-2 items-center'>
-                                                <span className='text-lg'>✓</span>
+                                                <span className='text-lg text-richblack-5'>✓</span>
                                                 <span>{item}</span>
                                             </div>
                                         ))
                                     }
                                 </div>
                             </div>
+                            
                             <div className='text-center'>
                                 {/* copy url */}
                                 <button className='mx-auto flex items-center gap-2 py-6 text-yellow-100' onClick={
@@ -245,6 +266,9 @@ const CourseDetails = () => {
                     </div>
                 </div>
             </div>
+
+
+
             <div className='mx-auto box-content px-4 text-start text-richblack-5 lg:w-[1260px]'>
                 <div className='mx-auto max-w-maxContentTab lg:mx-0 xl:max-w-[810px]'>
                     <div className='my-8 border border-richblack-600 p-8'>
@@ -286,7 +310,7 @@ const CourseDetails = () => {
                                         <div className='mt-5'>
                                             {
                                                 item?.SubSection?.map((subItem, subIndex) => (
-                                                    console.log("subItem",subItem),
+                                                    //console.log("subItem",subItem),
                                                     <div key={subIndex} className='relative overflow-hidden bg-richblack-900  p-5 border border-solid border-richblack-600'>
                                                         <div className='flex items-center gap-2'>
                                                         <IoVideocamOutline className='txt-lg text-richblack-5'/>

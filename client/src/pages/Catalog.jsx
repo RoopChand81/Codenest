@@ -12,7 +12,7 @@ import Spinner from '../components/common/Loading';
 
 const Catalog = () => {
 
-  const { loading } = useSelector((state) => state.profile)
+  const [ loading ,setLoading] = useState(false)
   const { catalogName } = useParams()
   const [active, setActive] = useState(1)
   const [catalogPageData, setCatalogPageData] = useState(null);
@@ -21,10 +21,12 @@ const Catalog = () => {
    //Fetch all categories
     useEffect(()=> {
         const getCategories = async() => {
+            setLoading(true);
             const res = await apiConnector("GET", categories.CATEGORIES_API);
-            const category_id = 
-            res?.data?.data?.filter((ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName)[0]._id;
+            //select the clicked category;
+            const category_id = res?.data?.data?.filter((ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName)[0]._id;
             setCategoryId(category_id);
+            setLoading(false);
         }
         getCategories();
     },[catalogName]);
@@ -32,16 +34,18 @@ const Catalog = () => {
     //fetch all category  page details
     useEffect(() => {
         const getCategoryDetails = async() => {
-            try{
+          try{
+                setLoading(true);
+                setCatalogPageData(null); 
                 const res = await getCatalogaPageData(categoryId,dispatch);
-                //console.log("PRinting res: ", res);
                 setCatalogPageData(res);
-                
+                //console.log("response"+res); 
+
             }
             catch(error) {
-               // console.log(error)
                 toast.error("something server Error!")
             }
+            setLoading(false);
         }
         if(categoryId) {
             getCategoryDetails();
@@ -49,18 +53,16 @@ const Catalog = () => {
         
     },[categoryId]);
 
+    
 
-    if (loading || !catalogPageData) {
+
+    if (loading) {
         return (
           <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
             <Spinner/>
           </div>
         )
-      }
-      // if (!loading && !catalogPageData.success) {
-      //   return <Error />
-      // }
-    
+    } 
       return (
         <div>
           {/* Hero Section */}
@@ -80,6 +82,7 @@ const Catalog = () => {
               </p>
             </div>
           </div>
+          
     
           {/* Section 1 */}
           <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
@@ -111,25 +114,27 @@ const Catalog = () => {
                 <CourseSlider
                   Courses={catalogPageData.data.selectedCategory.courses}
                 />
-              ) : (
-                <div className="flex flex-col items-center justify-center mt-16 space-y-6">
-                  <h1 className="text-3xl md:text-4xl font-extrabold text-amber-400 text-center">
-                    🚫 No course added in this category
-                  </h1>
+                ) : (
+                  <div className="flex flex-col items-center justify-center mt-16 space-y-6">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-amber-400 text-center">
+                      No course added in this category
+                    </h1>
 
-                  <a
-                    href="/"
-                    className="px-6 py-3 bg-amber-400 text-richblack-900 font-semibold rounded-lg shadow-md hover:bg-amber-300 transition-all duration-200"
-                  >
-                    Go Home
-                  </a>
-                </div>
-              )}
+                    <a
+                      href="/"
+                      className="px-6 py-3 bg-amber-400 text-richblack-900 font-semibold rounded-lg shadow-md hover:bg-amber-300 transition-all duration-200"
+                    >
+                      Go Home
+                    </a>
+                  </div>
+                )
+              }
             </div>
           </div>
 
           {/* Section 2 */}
           {
+            
             catalogPageData?.success &&<div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
               <div className="section_heading">
                 Top courses in {catalogPageData?.data?.differentCategory?.name}
@@ -141,7 +146,6 @@ const Catalog = () => {
               </div>
             </div>
           }
-    
           {/* Section 3  only 6 card show in this section*/}
           {
             catalogPageData?.success &&<div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">

@@ -175,7 +175,8 @@ exports.getEnrolledCourses=async(req,res)=>{
                         path:"courseContent",
                   },
             }).exec();
-            console.log("serverSide check courese",enrolledCourses);
+            
+            //console.log("serverSide check courese",enrolledCourses);
             if(!enrolledCourses){
                   return res.status(404).json({
                         message:"No courses enrolled",

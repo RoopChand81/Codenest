@@ -1,11 +1,34 @@
-const express =require('express');
+// const express =require('express');
+// const router = express.Router();
+
+// const {capturePayment,verifyPayment,sendPaymentSuccessEmail}=require('../controllers/Payment');
+// const {auth,isStudent}=require('../middlewares/auth');
+
+// router.post('/capturePayment',auth,isStudent,capturePayment);
+// router.post('/verifyPayment',auth,isStudent,verifyPayment);
+// router.post("/sendPaymentSuccessEmail",auth,isStudent,sendPaymentSuccessEmail);
+
+// module.exports=router
+const express = require("express");
 const router = express.Router();
+const bodyParser = require("body-parser");
 
-const {capturePayment,verifyPayment,sendPaymentSuccessEmail}=require('../controllers/Payment');
-const {auth,isStudent}=require('../middlewares/auth');
+const {
+  capturePayment,
+  razorpayWebhook,
+} = require("../controllers/Payment");
 
-router.post('/capturePayment',auth,isStudent,capturePayment);
-router.post('/verifyPayment',auth,isStudent,verifyPayment);
-router.post("/sendPaymentSuccessEmail",auth,isStudent,sendPaymentSuccessEmail);
+const { auth,isStudent } = require("../middlewares/auth");
 
-module.exports=router
+// frontend
+router.post("/capturePayment", auth, isStudent, capturePayment);
+
+// razorpay server
+router.post(
+  "/webhook",
+  razorpayWebhook
+);
+
+
+
+module.exports = router;
